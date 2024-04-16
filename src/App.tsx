@@ -1,19 +1,40 @@
-// src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import * as React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import Dashboard from './pages/Dashboard';
-import CountryDetail from './pages/CountryDetail';
+import { CountryDetail } from './pages/CountryDetail';
+
+const queryClient = new QueryClient();
+
+const rootLoader = async () => {
+  return Dashboard;
+};
+
+const countryLoader = async () => {
+  return CountryDetail;
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Dashboard />,
+    loader: rootLoader,
+  },
+  {
+    path: '/country/:countryCode',
+    element: <CountryDetail />,
+    loader: countryLoader,
+  },
+]);
 
 function App() {
   return (
-    <ChakraProvider>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Dashboard />} />
-          <Route path='/country/:name' element={<CountryDetail />} />
-        </Routes>
-      </Router>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 
