@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     loader: rootLoader,
   },
   {
-    path: '/country/:countryCode',
+    path: 'country/:countryCode',
     element: <CountryDetail />,
     loader: countryLoader,
   },
