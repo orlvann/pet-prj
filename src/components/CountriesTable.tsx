@@ -1,3 +1,4 @@
+//CountriesTable
 import { useNavigate } from 'react-router-dom';
 import { Table, Thead, Tbody, Tr, Th, Td, Image } from '@chakra-ui/react';
 import { Country } from '../api/countries';
