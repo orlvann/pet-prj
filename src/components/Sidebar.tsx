@@ -40,7 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         icon={<FiMenu />}
         onClick={onToggle}
         aria-label='Toggle Menu'
-        mb='5'
+        mb='7'
         size='lg'
         variant='ghost'
         visibility={isOpen ? 'visible' : 'hidden'}

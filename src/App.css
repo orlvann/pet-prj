@@ -1,73 +1,28 @@
-.table {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-
-  position: absolute;
-  width: 1247px;
-  height: 423px;
-  left: 387px;
-  top: 805px;
-
-  border-radius: 12px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.dashboard-container {
-  display: flex;
-  grid-template-columns: 100px auto;
-  gap: 1rem;
-  height: 100vh;
-  margin: auto;
-  max-width: 100%;
-  align-items: center;
-  flex-direction: column; /* Stacks children vertically */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.bar-chart {
-  position: absolute;
-  left: 127px;
-  top: 98px;
-  background: #ffffff;
+/* Apply dark mode styles */
+body.dark-mode {
+  background-color: #333;
+  color: white;
 }
 
-.total-population {
-  position: absolute;
-  width: 500px;
-  left: 559px;
-  top: 98px;
-  background: #ffffff;
-}
-
-.search {
-  position: flex;
-  width: 550px;
-  height: 38px;
-  left: 364px;
-
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 550px;
-
-  border-radius: 4px;
-  flex-grow: 1;
-}
-
-.vStack-container {
-  margin-top: 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 16px;
-  padding: 16px;
-}
-
+/* Top Bar */
 .top-bar {
   position: fixed;
   top: 0;
-  right: 0;
-  left: 0;
-  padding: 16px;
+  width: 100%;
+  padding: 1rem;
   background-color: white;
   display: flex;
   justify-content: space-between;
@@ -75,16 +30,109 @@
   z-index: 10;
 }
 
+body.dark-mode .top-bar {
+  background-color: #1a202c;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: row; /* Sidebar and main content side by side */
+  gap: 1rem;
+  padding-top: 60px; /* Space for top bar */
+  padding-bottom: 1rem; /* Give some space at the bottom */
+  min-height: calc(100vh - 60px); /* Full height minus top bar */
+  width: 100%;
+  align-items: flex-start; /* Align to the top */
+  overflow: hidden; /* Prevents scrolling caused by fixed elements */
+}
+
+.table {
+  position: absolute;
+  width: 1247px;
+  height: 423px;
+  left: 237px;
+  top: 805px;
+  border-radius: 12px;
+  overflow-x: auto; /* Allows table to scroll on small screens */
+}
+
+.bar-chart {
+  position: absolute;
+  width: calc(500px - 200px); /* Full width minus sidebar width */
+  max-width: 1247px; /* Or the max width it can take */
+  height: auto; /* Height is adjusted to content */
+  left: 25%; /* Centering the bar chart */
+  transform: translateX(-50%);
+  top: 98px;
+  background: #ffffff;
+  border-radius: 8px;
+  flex-grow: 1; /* Allow the chart to grow */
+}
+
+.total-population {
+  position: absolute;
+  width: 500px;
+  left: 509px;
+  top: 98px;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.search {
+  position: absolute;
+  width: 550px;
+  height: 38px;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Centering adjustment */
+  top: 20px; /* Or wherever the search bar was positioned */
+}
+
+/* Dark Mode Switch */
 .dark-mode-switch {
   position: absolute;
   right: 1rem;
+  top: 1rem; /* Adjust as necessary */
+  margin-left: auto;
 }
 
-body.dark-mode {
-  background-color: #333;
-  color: white;
-}
+@media (max-width: 1024px) {
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
+  }
 
-body.dark-mode .top-bar {
-  background-color: #1a202c;
+  .sidebar {
+    grid-row: 1;
+    width: 100%; /* Sidebar takes full width */
+    min-width: 0;
+  }
+
+  .top-bar,
+  .dark-mode-switch {
+    padding: 0.5rem; /* Smaller padding on smaller screens */
+  }
+
+  .search {
+    position: relative;
+    width: 100%;
+    left: 0;
+    transform: none;
+    top: auto;
+    height: auto;
+  }
+
+  .total-population,
+  .bar-chart,
+  .table {
+    max-width: none;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    transform: none;
+    top: auto;
+    height: auto;
+  }
 }
