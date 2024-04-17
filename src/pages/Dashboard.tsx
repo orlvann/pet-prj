@@ -5,6 +5,7 @@ import {
   useDisclosure,
   IconButton,
   Spinner,
+  useColorMode,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
 import { CountriesTable } from '../components/CountriesTable';
@@ -24,6 +25,10 @@ const Dashboard: React.FC = () => {
     isLoading: isLoadingCountries,
     isError,
   } = useFetchEUCountries();
+  const { colorMode } = useColorMode();
+
+  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
+  const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
 
   if (isLoadingCountries) {
     return <Spinner />;
@@ -64,13 +69,17 @@ const Dashboard: React.FC = () => {
         zIndex='20'
       />
       <Sidebar isOpen={isOpen} onToggle={onToggle} />
-      <Box className='top-bar'>
+      <Box bg={bgColor} borderColor={borderColor} className='top-bar'>
         <Box width='2.5rem' height='2.5rem' />
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
         <DarkModeSwitch />
       </Box>
       <VStack className='vStack-container'>
-        <Box className='total-population'>
+        <Box
+          bg={bgColor}
+          borderColor={borderColor}
+          className='total-population'
+        >
           <TotalPopulation total={totalPopulation} />
         </Box>
         <Box className='bar-chart'>

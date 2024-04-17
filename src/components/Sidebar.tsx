@@ -8,22 +8,27 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { FiHome, FiMenu } from 'react-icons/fi';
-
+import { useColorMode } from '@chakra-ui/react';
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
+  const { colorMode } = useColorMode();
+  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
+  const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
+
   return (
     <Flex
+      bg={bgColor}
+      borderColor={borderColor}
       as='nav'
       direction='column'
       position='fixed'
       left={isOpen ? '0' : '-250px'}
       top='0'
       p='5'
-      bg='white'
       h='100vh'
       shadow='md '
       width='250px'
