@@ -9,6 +9,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Apply dark mode styles */
@@ -28,6 +29,7 @@ body.dark-mode {
   justify-content: space-between;
   align-items: center;
   z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode .top-bar {
@@ -36,63 +38,63 @@ body.dark-mode .top-bar {
 
 /* Dashboard Container */
 .dashboard-container {
+  /* Changed from absolute to relative to use natural document flow */
+  position: relative;
   display: flex;
-  flex-direction: row; /* Sidebar and main content side by side */
+  flex-wrap: wrap; /* Allows elements to wrap onto the next line as needed */
   gap: 1rem;
-  padding-top: 60px; /* Space for top bar */
-  padding-bottom: 1rem; /* Give some space at the bottom */
-  min-height: calc(100vh - 60px); /* Full height minus top bar */
-  width: 100%;
-  align-items: flex-start; /* Align to the top */
-  overflow: hidden; /* Prevents scrolling caused by fixed elements */
+  padding-top: 60px;
+  padding-bottom: 1rem;
+  min-height: calc(100vh - 60px);
+  align-items: flex-start;
+  overflow: hidden;
 }
 
 .table {
-  position: absolute;
-  width: 1247px;
-  height: 423px;
-  left: 237px;
-  top: 805px;
+  width: calc(100% - 2rem); /* Full width minus padding */
+  max-width: 1247px; /* Maximum width to maintain layout on large screens */
+  margin: auto; /* Center the table in the available space */
+  height: auto;
+  top: auto;
+  left: auto;
   border-radius: 12px;
-  overflow-x: auto; /* Allows table to scroll on small screens */
+  overflow-x: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bar-chart {
-  position: absolute;
-  width: calc(500px - 200px); /* Full width minus sidebar width */
-  max-width: 1247px; /* Or the max width it can take */
-  height: auto; /* Height is adjusted to content */
-  left: 25%; /* Centering the bar chart */
-  transform: translateX(-50%);
-  top: 98px;
+  width: 100%; /* Full width on mobile */
+  max-width: 1247px; /* Maximum width to maintain layout on large screens */
+  margin: auto; /* Center the chart */
   background: #ffffff;
-  border-radius: 8px;
-  flex-grow: 1; /* Allow the chart to grow */
+  border-radius: 6px;
+  margin-bottom: 2rem;
 }
 
 .total-population {
-  position: absolute;
-  width: 500px;
-  left: 509px;
-  top: 98px;
+  width: 100%; /* Full width on mobile */
+  max-width: 500px; /* Maximum width to maintain layout on large screens */
+  margin: auto; /* Center the box */
   padding: 1rem;
   border-radius: 8px;
+  text-align: center;
 }
 
 .search {
   position: absolute;
   width: 550px;
   height: 38px;
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Centering adjustment */
-  top: 20px; /* Or wherever the search bar was positioned */
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+
+  border-radius: 4px;
 }
 
-/* Dark Mode Switch */
 .dark-mode-switch {
   position: absolute;
   right: 1rem;
-  top: 1rem; /* Adjust as necessary */
+  top: 1rem;
   margin-left: auto;
 }
 
@@ -101,38 +103,58 @@ body.dark-mode .top-bar {
     flex-direction: column;
     align-items: center;
   }
+}
 
-  .sidebar {
-    grid-row: 1;
-    width: 100%; /* Sidebar takes full width */
-    min-width: 0;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  .top-bar,
-  .dark-mode-switch {
-    padding: 0.5rem; /* Smaller padding on smaller screens */
-  }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
 
-  .search {
-    position: relative;
-    width: 100%;
-    left: 0;
-    transform: none;
-    top: auto;
-    height: auto;
-  }
+body.dark-mode {
+  background-color: #333;
+  color: white;
+}
 
-  .total-population,
-  .bar-chart,
-  .table {
-    max-width: none;
-    margin: 1rem 0;
-    padding: 0.5rem;
-    width: 100%;
-    position: relative;
-    align-items: center;
-    transform: none;
-    top: auto;
-    height: auto;
-  }
+.top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .top-bar {
+  background-color: #1a202c;
+}
+
+.dashboard-container {
+  padding-top: 60px; /* Space for top bar */
+  padding-bottom: 1rem; /* Give some space at the bottom */
+  min-height: calc(100vh - 60px); /* Full height minus top bar */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This centers the children horizontally */
+  overflow: hidden;
+}
+
+.bar-chart,
+.table,
+.total-population {
+  width: 100%; /* This makes the elements take the full width of their parent */
+  max-width: 1247px; /* This ensures they don't get too wide on larger screens */
+  margin: 1;
 }

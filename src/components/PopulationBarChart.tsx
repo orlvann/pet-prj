@@ -14,7 +14,7 @@ const PopulationBarChart: React.FC<PopulationBarChartProps> = ({ data }) => {
   return (
     <div className='bar-chart'>
       <Box bg={bgColor} borderColor={borderColor}>
-        <BarChart width={700} height={500} data={data}>
+        <BarChart width={800} height={500} data={data}>
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='name' />
           <YAxis />
