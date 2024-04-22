@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Flex,
-  List,
-  ListItem,
-  ListIcon,
-  IconButton,
-  Link,
-} from '@chakra-ui/react';
-import { FiHome, FiMenu } from 'react-icons/fi';
+import { Flex, List, ListItem, ListIcon, Link, Box } from '@chakra-ui/react';
+import { FiHome } from 'react-icons/fi';
 import { useColorMode } from '@chakra-ui/react';
 interface SidebarProps {
   isOpen: boolean;
@@ -23,7 +16,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
     <Flex
       bg={bgColor}
       borderColor={borderColor}
-      as='nav'
       direction='column'
       position='fixed'
       left={isOpen ? '0' : '-250px'}
@@ -36,15 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       transition='all 0.2s '
       zIndex='10'
     >
-      <IconButton
-        icon={<FiMenu />}
-        onClick={onToggle}
-        aria-label='Toggle Menu'
-        mb='5'
-        size='lg'
-        variant='ghost'
-        visibility={isOpen ? 'visible' : 'hidden'}
-      />
+      <Box mb='55' />
       {isOpen && (
         <List spacing={2}>
           <ListItem>

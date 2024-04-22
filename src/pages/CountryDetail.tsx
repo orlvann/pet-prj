@@ -1,7 +1,23 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Image, Text, Spinner, Heading, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Image,
+  Text,
+  Spinner,
+  Heading,
+  VStack,
+  IconButton,
+  Flex,
+  useDisclosure,
+  useColorMode,
+} from '@chakra-ui/react';
 import { useQuery } from 'react-query';
 import { Country } from '../api/countries';
+import { Sidebar } from '../components/Sidebar';
+import DarkModeSwitch from '../components/DarkModeSwitch';
+import { FiMenu } from 'react-icons/fi';
+import '../App.css';
 
 const renderCountryDetail = (country: Country) => {
   return Object.entries(country).map(([key, value]) => {
@@ -47,6 +63,8 @@ const renderCountryDetail = (country: Country) => {
 
 export const CountryDetail = () => {
   const { countryCode } = useParams<{ countryCode: string }>();
+  const { colorMode } = useColorMode();
+  const { isOpen, onToggle } = useDisclosure();
 
   const {
     data: countryData,
@@ -64,27 +82,52 @@ export const CountryDetail = () => {
     }
   );
 
-  const country = countryData && countryData[0];
-
   if (isLoading) return <Spinner />;
-  if (isError || !country)
+  if (isError || !countryData)
     return (
       <Box>An error occurred: {error?.message || 'Country not found'}</Box>
     );
 
+  const country = countryData[0];
+
   return (
-    <Box p={4}>
-      <Heading as='h2' size='xl' mb={4}>
-        {country.name.official}
-      </Heading>
-      <Image
-        src={country.flags.png}
-        alt={`Flag of ${country.name.common}`}
-        boxSize='100px'
-      />
-      <VStack align='start' spacing={4}>
-        {renderCountryDetail(country)}
-      </VStack>
-    </Box>
+    <Flex direction='column' align='center' h='100vh'>
+      <Flex
+        w='full'
+        justifyContent='space-between'
+        p={5}
+        bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+      >
+        <IconButton
+          icon={<FiMenu />}
+          onClick={onToggle}
+          aria-label='Open Menu'
+          position='fixed'
+          top='1rem'
+          left='1rem'
+          zIndex='20'
+        />
+        <Sidebar isOpen={isOpen} onToggle={onToggle} />
+        <Box width='2.5rem' height='2.5rem' />
+
+        <DarkModeSwitch />
+      </Flex>
+      {country && (
+        <VStack spacing={4} align='center' w='full' p={4}>
+          <Heading as='h2' size='xl'>
+            {country.name.official}
+          </Heading>
+          <Image
+            src={country.flags.png}
+            alt={`Flag of ${country.name.common}`}
+            boxSize='100px'
+          />
+          <VStack align='center' spacing={4} w='full'>
+            {renderCountryDetail(country)}
+          </VStack>
+        </VStack>
+      )}
+    </Flex>
   );
 };
+export default CountryDetail;

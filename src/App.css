@@ -60,6 +60,7 @@ body.dark-mode .top-bar {
   border-radius: 12px;
   overflow-x: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
 }
 
 .bar-chart {
@@ -68,7 +69,6 @@ body.dark-mode .top-bar {
   margin: auto; /* Center the chart */
   background: #ffffff;
   border-radius: 6px;
-  margin-bottom: 2rem;
 }
 
 .total-population {

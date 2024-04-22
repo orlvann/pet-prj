@@ -5,6 +5,7 @@ import {
   useDisclosure,
   IconButton,
   Spinner,
+  Flex,
   useColorMode,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
@@ -69,11 +70,26 @@ const Dashboard: React.FC = () => {
         zIndex='20'
       />
       <Sidebar isOpen={isOpen} onToggle={onToggle} />
-      <Box bg={bgColor} borderColor={borderColor} className='top-bar'>
-        <Box width='2.5rem' height='2.5rem' />
+      <Flex
+        as='header'
+        w='full'
+        justifyContent='space-between'
+        alignItems='center'
+        p={5}
+        bg={bgColor}
+        borderBottom='1px'
+        borderColor={borderColor}
+        zIndex='10'
+        position='fixed'
+        top='0'
+        left='0'
+        right='0'
+      >
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
-        <DarkModeSwitch />
-      </Box>
+        <Box flex='1' textAlign='right'>
+          <DarkModeSwitch />
+        </Box>
+      </Flex>
       <VStack className='vStack-container'>
         <Box
           bg={bgColor}
