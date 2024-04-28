@@ -1,16 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, To, NavigateOptions } from 'react-router-dom';
 import { Table, Thead, Tbody, Tr, Th, Td, Image } from '@chakra-ui/react';
 import { Country } from '../api/countries';
 import '../App.css';
 
-interface CountriesTableProps {
+export interface CountriesTableProps {
   countries: Country[];
+  navigate?: (to: To, options?: NavigateOptions) => void;
 }
 
 export const CountriesTable: React.FC<CountriesTableProps> = ({
   countries,
+  navigate,
 }) => {
-  const navigate = useNavigate();
+  const navigateHook = useNavigate();
+  const navigateHandler = navigate || navigateHook;
   return (
     <div className='table'>
       <Table variant='simple'>
@@ -26,7 +29,7 @@ export const CountriesTable: React.FC<CountriesTableProps> = ({
           {countries.map((country) => (
             <Tr
               key={country.cca3}
-              onClick={() => navigate(`/country/${country.cca3}`)}
+              onClick={() => navigateHandler(`/country/${country.cca3}`)}
               cursor='pointer'
             >
               <Td>{country.name.common}</Td>
