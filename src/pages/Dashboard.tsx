@@ -17,8 +17,10 @@ import '../App.css';
 import SearchBar from '../components/SearchBar';
 import DarkModeSwitch from '../components/DarkModeSwitch';
 import { FiMenu } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const { isOpen, onToggle } = useDisclosure();
   const {
@@ -57,6 +59,10 @@ const Dashboard: React.FC = () => {
         country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : countriesData;
+
+  const handleOnRowClick = (cca3: string) => {
+    navigate(`/country/${cca3}`);
+  };
 
   return (
     <Box className='dashboard-container'>
@@ -102,7 +108,10 @@ const Dashboard: React.FC = () => {
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}
         </Box>
         <Box className='countries-table'>
-          <CountriesTable countries={filteredCountries} />
+          <CountriesTable
+            countries={filteredCountries}
+            onRowClick={handleOnRowClick}
+          />
         </Box>
       </VStack>
     </Box>
