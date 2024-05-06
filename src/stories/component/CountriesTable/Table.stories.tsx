@@ -4,7 +4,7 @@ import {
   CountriesTable,
   CountriesTableProps,
 } from '../../../components/CountriesTable';
-import { NavigateOptions, BrowserRouter as Router, To } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 
 export default {

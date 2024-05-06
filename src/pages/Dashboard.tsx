@@ -7,9 +7,11 @@ import {
   Spinner,
   Flex,
   useColorMode,
+  Image,
+  Switch,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
-import { CountriesTable } from '../components/CountriesTable';
+import { Table, TableColumn } from '../components/Table'; // Use the new Table component
 import TotalPopulation from '../components/TotalPopulation';
 import PopulationBarChart from '../components/PopulationBarChart';
 import { useFetchEUCountries } from '../api/countries';
@@ -41,11 +43,59 @@ const Dashboard: React.FC = () => {
     return <Box>Error fetching countries</Box>;
   }
 
+  const columns: TableColumn[] = [
+    {
+      header: 'Name',
+      accessor: 'name.common',
+      isSortable: true,
+    },
+    {
+      header: 'Flag',
+      accessor: 'flags.png',
+      render: (item) => (
+        <Image
+          src={item.flags.png}
+          alt={`Flag of ${item.name.common}`}
+          boxSize='30px'
+        />
+      ),
+    },
+    {
+      header: 'Capital',
+      accessor: 'capital',
+      render: (item) => item.capital?.join(', '),
+      isSortable: true,
+    },
+    {
+      header: 'Population',
+      accessor: 'population',
+      render: (item) => item.population.toLocaleString(),
+      isSortable: true,
+    },
+    {
+      header: 'Independent',
+      accessor: 'independent',
+      render: (item) => (
+        <Switch isChecked={item.independent} isReadOnly={true} />
+      ),
+    },
+  ];
+
+  const tableData = countriesData
+    .filter(
+      (country) =>
+        !searchTerm ||
+        country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((country, index) => ({
+      ...country,
+      index, // Add index if you want to display row numbers
+    }));
+
   const totalPopulation = countriesData.reduce(
     (acc, country) => acc + country.population,
     0
   );
-
   const barChartData = countriesData
     .sort((a, b) => b.population - a.population)
     .slice(0, 7)
@@ -53,16 +103,6 @@ const Dashboard: React.FC = () => {
       name: country.name.common,
       population: country.population,
     }));
-
-  const filteredCountries = searchTerm
-    ? countriesData.filter((country) =>
-        country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : countriesData;
-
-  const handleOnRowClick = (cca3: string) => {
-    navigate(`/country/${cca3}`);
-  };
 
   return (
     <Box className='dashboard-container'>
@@ -108,9 +148,10 @@ const Dashboard: React.FC = () => {
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}
         </Box>
         <Box className='countries-table'>
-          <CountriesTable
-            countries={filteredCountries}
-            onRowClick={handleOnRowClick}
+          <Table
+            columns={columns}
+            data={tableData}
+            onRowClick={(item) => navigate(`/country/${item.cca3}`)}
           />
         </Box>
       </VStack>
