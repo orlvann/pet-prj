@@ -8,7 +8,7 @@ import {
   Flex,
   useColorMode,
   Image,
-  Switch,
+  Button,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
 import { Table, TableColumn } from '../components/Table'; //
@@ -56,8 +56,27 @@ const Dashboard: React.FC = () => {
     {
       header: 'Independent',
       accessor: (country) => country.independent,
-      render: (value) => (
-        <Switch isChecked={value as boolean} isReadOnly={true} />
+      render: (value: React.ReactNode, country: Country) => (
+        <Button
+          size='sm'
+          colorScheme={value === 'true' ? 'gray' : 'gray'}
+          variant={colorMode === 'dark' ? 'solid' : 'outline'}
+          isDisabled={true}
+          _disabled={{
+            bg: value
+              ? colorMode === 'light'
+                ? 'gray.700'
+                : 'gray.400'
+              : colorMode === 'light'
+                ? 'gray.400'
+                : 'gray.700',
+            color: 'white',
+
+            opacity: 1,
+          }}
+        >
+          {value ? 'True' : 'False'}
+        </Button>
       ),
     },
   ];
@@ -65,6 +84,13 @@ const Dashboard: React.FC = () => {
   if (isLoadingCountries) return <Spinner />;
   if (isError || !countriesData) return <Box>Error fetching countries</Box>;
 
+  const handleOnRowClick = (country: Country) =>
+    navigate(`/country/${country.cca3}`);
+  const filteredData = countriesData.filter(
+    (country) =>
+      !searchTerm ||
+      country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const totalPopulation = countriesData.reduce(
     (acc, country) => acc + country.population,
     0
@@ -120,17 +146,11 @@ const Dashboard: React.FC = () => {
         <Box className='bar-chart'>
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}
         </Box>
-        <Box className='countries-table'>
+        <Box className='table'>
           <Table
             columns={columns}
-            data={countriesData.filter(
-              (country) =>
-                !searchTerm ||
-                country.name.common
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase())
-            )}
-            onRowClick={(country) => navigate(`/country/${country.cca3}`)}
+            data={filteredData}
+            onRowClick={handleOnRowClick}
           />
         </Box>
       </VStack>
