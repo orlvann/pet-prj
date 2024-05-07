@@ -11,10 +11,10 @@ import {
   Switch,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
-import { Table, TableColumn } from '../components/Table'; // Use the new Table component
+import { Table, TableColumn } from '../components/Table'; //
 import TotalPopulation from '../components/TotalPopulation';
 import PopulationBarChart from '../components/PopulationBarChart';
-import { useFetchEUCountries } from '../api/countries';
+import { Country, useFetchEUCountries } from '../api/countries';
 import '../App.css';
 import SearchBar from '../components/SearchBar';
 import DarkModeSwitch from '../components/DarkModeSwitch';
@@ -22,75 +22,48 @@ import { FiMenu } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const { isOpen, onToggle } = useDisclosure();
   const {
     data: countriesData,
     isLoading: isLoadingCountries,
     isError,
   } = useFetchEUCountries();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const { isOpen, onToggle } = useDisclosure();
   const { colorMode } = useColorMode();
 
   const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
 
-  if (isLoadingCountries) {
-    return <Spinner />;
-  }
-
-  if (isError || !countriesData) {
-    return <Box>Error fetching countries</Box>;
-  }
-
-  const columns: TableColumn[] = [
+  const columns: TableColumn<Country>[] = [
     {
       header: 'Name',
-      accessor: 'name.common',
-      isSortable: true,
+      accessor: (country) => country.name.common,
     },
     {
       header: 'Flag',
-      accessor: 'flags.png',
-      render: (item) => (
-        <Image
-          src={item.flags.png}
-          alt={`Flag of ${item.name.common}`}
-          boxSize='30px'
-        />
-      ),
+      accessor: (country) => country.flags.png,
+      render: (value) => <Image src={value as string} boxSize='30px' />,
     },
     {
       header: 'Capital',
-      accessor: 'capital',
-      render: (item) => item.capital?.join(', '),
-      isSortable: true,
+      accessor: (country) => country.capital.join(', '),
     },
     {
       header: 'Population',
-      accessor: 'population',
-      render: (item) => item.population.toLocaleString(),
-      isSortable: true,
+      accessor: (country) => country.population.toLocaleString(),
     },
     {
       header: 'Independent',
-      accessor: 'independent',
-      render: (item) => (
-        <Switch isChecked={item.independent} isReadOnly={true} />
+      accessor: (country) => country.independent,
+      render: (value) => (
+        <Switch isChecked={value as boolean} isReadOnly={true} />
       ),
     },
   ];
 
-  const tableData = countriesData
-    .filter(
-      (country) =>
-        !searchTerm ||
-        country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .map((country, index) => ({
-      ...country,
-      index, // Add index if you want to display row numbers
-    }));
+  if (isLoadingCountries) return <Spinner />;
+  if (isError || !countriesData) return <Box>Error fetching countries</Box>;
 
   const totalPopulation = countriesData.reduce(
     (acc, country) => acc + country.population,
@@ -150,8 +123,14 @@ const Dashboard: React.FC = () => {
         <Box className='countries-table'>
           <Table
             columns={columns}
-            data={tableData}
-            onRowClick={(item) => navigate(`/country/${item.cca3}`)}
+            data={countriesData.filter(
+              (country) =>
+                !searchTerm ||
+                country.name.common
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())
+            )}
+            onRowClick={(country) => navigate(`/country/${country.cca3}`)}
           />
         </Box>
       </VStack>

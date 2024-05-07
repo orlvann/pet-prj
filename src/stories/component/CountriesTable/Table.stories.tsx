@@ -1,20 +1,19 @@
 import React from 'react';
+import { Image, Switch } from '@chakra-ui/react';
 import { Meta, StoryFn } from '@storybook/react';
-import {
-  CountriesTable,
-  CountriesTableProps,
-} from '../../../components/CountriesTable';
+import { Table, TableProps } from '../../../components/Table';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Country } from '../../../api/countries';
 
 export default {
-  title: 'Components/CountriesTable',
-  component: CountriesTable,
+  title: 'Components/Table',
+  component: Table,
   decorators: [
-    (StoryFn: StoryFn) => (
+    (StoryFn: StoryFn<TableProps<Country>>) => (
       <Router>
         <ChakraProvider>
-          <StoryFn />
+          <StoryFn columns={[]} data={[]} />
         </ChakraProvider>
       </Router>
     ),
@@ -23,21 +22,19 @@ export default {
     navigate: {
       action: 'navigated',
     },
-    countries: {
+    data: {
       control: 'object',
       description: 'Array of country objects to be displayed in the table',
-      backgroundColor: { control: 'color' },
     },
   },
-} as Meta;
+} as Meta<TableProps<Country>>;
 
-const Template: StoryFn<CountriesTableProps> = (args) => (
-  <CountriesTable {...args} />
-);
+const Template: StoryFn<TableProps<Country>> = (args) => <Table {...args} />;
+
 export const Default = Template.bind({});
 
 Default.args = {
-  countries: [
+  data: [
     {
       name: {
         common: 'Moldova',
@@ -1167,6 +1164,33 @@ Default.args = {
       },
     },
   ],
-  onRowClick: (cca3: string) =>
-    console.log(`Clicked row with country code: ${cca3}`),
+  columns: [
+    {
+      header: 'Name',
+      accessor: (country: Country) => country.name.common,
+    },
+    {
+      header: 'Flag',
+      accessor: (country: Country) => country.flags.png,
+      render: (flagUrl: any) => <Image src={flagUrl} boxSize='30px' />,
+    },
+    {
+      header: 'Capital',
+      accessor: (country: Country) => country.capital.join(', '),
+    },
+    {
+      header: 'Population',
+      accessor: (country: Country) => country.population.toLocaleString(),
+    },
+    {
+      header: 'Independent',
+      accessor: (country: Country) => country.independent,
+      render: (isIndependent: any) => (
+        <Switch isChecked={isIndependent} isReadOnly={true} />
+      ), // Cast to any for demo purposes
+    },
+  ],
+  onRowClick: (item: Country) => {
+    console.log(`Clicked row with country code: ${item.cca3}`);
+  },
 };

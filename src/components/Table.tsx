@@ -1,5 +1,5 @@
 // src/components/Table.tsx
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import {
   Table as ChakraTable,
   Thead,
@@ -7,82 +7,42 @@ import {
   Tr,
   Th,
   Td,
-  //IconButton,
 } from '@chakra-ui/react';
-import { TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons';
 
-export interface TableColumn {
+export interface TableColumn<T> {
   header: string;
-  accessor: string;
-  render?: (dataItem: any) => React.ReactNode;
-  isSortable?: boolean;
+  accessor: (item: T) => React.ReactNode; // Ensures data is fetched from item
+  render?: (value: React.ReactNode) => JSX.Element; // Optionally formats the fetched data
 }
 
-export interface TableProps {
-  columns: TableColumn[];
-  data: any[];
-  onRowClick?: (dataItem: any) => void;
+export interface TableProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
+  onRowClick?: (item: T) => void; // Triggered on row click, receives row data
 }
 
-export const Table: React.FC<TableProps> = ({ columns, data, onRowClick }) => {
-  const [sortConfig, setSortConfig] = useState<{
-    key: string;
-    direction: 'ascending' | 'descending';
-  } | null>(null);
-
-  const sortedData = useMemo(() => {
-    if (!sortConfig) return data;
-    const sorted = [...data].sort((a, b) => {
-      const aVal = a[sortConfig.key];
-      const bVal = b[sortConfig.key];
-      if (aVal < bVal) return sortConfig.direction === 'ascending' ? -1 : 1;
-      if (aVal > bVal) return sortConfig.direction === 'ascending' ? 1 : -1;
-      return 0;
-    });
-    return sorted;
-  }, [data, sortConfig]);
-
-  const requestSort = (key: string) => {
-    if (sortConfig && sortConfig.key === key) {
-      setSortConfig({
-        key,
-        direction:
-          sortConfig.direction === 'ascending' ? 'descending' : 'ascending',
-      });
-    } else {
-      setSortConfig({ key, direction: 'ascending' });
-    }
-  };
-
+export const Table = <T,>({
+  columns,
+  data,
+  onRowClick,
+}: TableProps<T>): JSX.Element => {
   return (
     <ChakraTable variant='simple'>
       <Thead>
         <Tr>
-          {columns.map((column) => (
-            <Th
-              key={column.accessor}
-              onClick={() => column.isSortable && requestSort(column.accessor)}
-              cursor={column.isSortable ? 'pointer' : 'auto'}
-            >
-              {column.header}
-              {column.isSortable &&
-                (sortConfig?.key === column.accessor ? (
-                  sortConfig.direction === 'ascending' ? (
-                    <TriangleUpIcon />
-                  ) : (
-                    <TriangleDownIcon />
-                  )
-                ) : null)}
-            </Th>
+          {columns.map((column, index) => (
+            <Th key={index}>{column.header}</Th>
           ))}
         </Tr>
       </Thead>
       <Tbody>
-        {sortedData.map((item, index) => (
-          <Tr key={index} onClick={() => onRowClick && onRowClick(item)}>
+        {data.map((item, idx) => (
+          <Tr key={idx} onClick={() => (onRowClick ? onRowClick(item) : null)}>
             {columns.map((column) => (
-              <Td key={column.accessor}>
-                {column.render ? column.render(item) : item[column.accessor]}
+              <Td key={column.header}>
+                {column.render
+                  ? column.render(column.accessor(item))
+                  : column.accessor(item)}
               </Td>
             ))}
           </Tr>
