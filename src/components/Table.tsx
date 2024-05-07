@@ -1,5 +1,3 @@
-// src/components/Table.tsx
-import React from 'react';
 import {
   Table as ChakraTable,
   Thead,
@@ -7,44 +5,43 @@ import {
   Tr,
   Th,
   Td,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-export interface TableColumn<T> {
-  header: string;
-  accessor: (item: T, index?: number) => React.ReactNode;
-  render?: (value: React.ReactNode, item: T, index?: number) => JSX.Element;
+export interface TableColumn {
+  key: string;
+  fieldName: string;
+  name: string;
+  onRender?: (item: any, index?: number) => JSX.Element;
 }
 
-export interface TableProps<T> {
-  columns: TableColumn<T>[];
-  data: T[];
-  onRowClick?: (item: T) => void;
+export interface TableProps {
+  columns: TableColumn[];
+  data: any[];
+  onRowClick?: (item: any, index: number) => void;
 }
 
-export const Table = <T extends {}>({
+export const Table = ({
   columns,
   data,
   onRowClick,
-}: TableProps<T>): JSX.Element => {
+}: TableProps): JSX.Element => {
   return (
-    <ChakraTable variant='simple'>
+    <ChakraTable variant="simple">
       <Thead>
         <Tr>
-          <Th>#</Th> {/* Header for the row number */}
           {columns.map((column, index) => (
-            <Th key={index}>{column.header}</Th>
+            <Th key={index}>{column.name}</Th>
           ))}
         </Tr>
       </Thead>
       <Tbody>
         {data.map((item, idx) => (
-          <Tr key={idx} onClick={() => onRowClick && onRowClick(item)}>
-            <Td>{idx + 1}</Td> {/* Display row number, starting from 1 */}
+          <Tr key={idx} onClick={() => onRowClick && onRowClick(item, idx)}>
             {columns.map((column) => (
-              <Td key={column.header}>
-                {column.render
-                  ? column.render(column.accessor(item, idx), item, idx)
-                  : column.accessor(item, idx)}
+              <Td key={column.key}>
+                {column.onRender
+                  ? column.onRender(item, idx)
+                  : item[column.fieldName]}
               </Td>
             ))}
           </Tr>
