@@ -14,6 +14,7 @@ export interface Name {
 export interface Flags {
   png: string;
   svg: string;
+  alt?: string;
 }
 
 export interface Country {
@@ -37,6 +38,7 @@ export interface Country {
     suffixes: string[];
   };
   capital: string[];
+  altSpellings: string[];
   region: string;
   subregion: string;
   languages: {
@@ -50,6 +52,7 @@ export interface Country {
   };
   latlng: number[];
   landlocked: boolean;
+  borders: string[];
   area: number;
   demonyms: {
     [key: string]: {
@@ -57,8 +60,35 @@ export interface Country {
       m: string;
     };
   };
+  flag: string;
+  maps: {
+    googleMaps: string;
+    openStreetMaps: string;
+  };
   flags: Flags;
   population: number;
+  gini: {
+    [year: string]: number;
+  };
+  fifa: string;
+  car: {
+    signs: string[];
+    side: string;
+  };
+  timezones: string[];
+  continents: string[];
+  coatOfArms: {
+    png: string;
+    svg: string;
+  };
+  startOfWeek: string;
+  capitalInfo: {
+    latlng: number[];
+  };
+  postalCode: {
+    format: string;
+    regex: string;
+  };
 }
 
 export const fetchEUCountries = async (): Promise<Country[]> => {
