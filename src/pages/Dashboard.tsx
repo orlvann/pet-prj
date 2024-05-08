@@ -11,8 +11,8 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
-import { Table, TableColumn } from '../components/Table'; //
-import TotalPopulation from '../components/TotalPopulation';
+import { Table, TableColumn } from '../components/Table';
+import TotalPopulatioon from '../components/TotalPopulation';
 import PopulationBarChart from '../components/BarChart';
 import { Country, useFetchEUCountries } from '../api/countries';
 import '../App.css';
@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
         left='0'
         right='0'
       >
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SearchBar data={[{ value: searchTerm, onChange: setSearchTerm }]} />
         <Box flex='1' textAlign='right'>
           <DarkModeSwitch />
         </Box>
@@ -172,7 +172,7 @@ const Dashboard: React.FC = () => {
           borderColor={borderColor}
           className='total-population'
         >
-          <TotalPopulation total={totalPopulation} />
+          <TotalPopulatioon total={totalPopulation} />
         </Box>
         <Box className='bar-chart'>
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}
