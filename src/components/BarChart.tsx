@@ -27,7 +27,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
 
   return (
     <Box bg={bgColor} borderColor={borderColor} p={4}>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
           margin={{
@@ -38,18 +38,16 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
           }}
         >
           <defs>
-            <linearGradient id='colorPopulation' x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='5%' stopColor='#4A5568' stopOpacity={0.8} />
-              <stop offset='95%' stopColor='#4A5568' stopOpacity={0} />
+            <linearGradient id="colorPopulation" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#4A5568" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#4A5568" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray='3 3' stroke={gridColor} />
-          <XAxis dataKey='name' stroke={textColor} />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+          <XAxis dataKey="name" stroke={textColor} />
           <YAxis stroke={textColor} tickFormatter={formatNumbers} />
           <Tooltip
-            formatter={(value: number) =>
-              `${(value / 1000000).toFixed(1)} million`
-            }
+            formatter={formatNumbers}
             labelStyle={{ color: textColor }}
             itemStyle={{ color: textColor }}
             cursor={{ fill: 'transparent' }}
@@ -62,7 +60,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
               padding: '10px',
             }}
           />
-          <Bar dataKey='population' fill='url(#colorPopulation)' />
+          <Bar dataKey="population" fill="url(#colorPopulation)" />
         </BarChart>
       </ResponsiveContainer>
     </Box>
