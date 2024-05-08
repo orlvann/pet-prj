@@ -42,8 +42,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
         >
           <defs>
             <linearGradient id='whiteGradient' x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='5%' stopColor='#cccccc' stopOpacity={0.8} />
-              <stop offset='95%' stopColor='#4A5568' stopOpacity={0.8} />
+              <stop offset='5%' stopColor='white' stopOpacity={0.8} />
+              <stop offset='95%' stopColor='#A0AEC0' stopOpacity={0.8} />
             </linearGradient>
             <linearGradient id='colorfulGradient' x1='0' y1='0' x2='0' y2='1'>
               <stop offset='5%' stopColor='#4A5568' stopOpacity={0.8} />
@@ -57,8 +57,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
             formatter={(value: number) =>
               `${(value / 1000000).toFixed(1)} million`
             }
-            labelStyle={{ color: '#333' }}
-            itemStyle={{ color: '#333' }}
+            labelStyle={{ color: textColor }}
+            itemStyle={{ color: textColor }}
             cursor={{ fill: 'transparent' }}
             contentStyle={{
               color: 'black',
@@ -67,7 +67,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
               borderColor: 'gray',
               borderWidth: '1px',
               padding: '10px',
-              background: isDarkMode ? 'gray.400' : 'gray.200',
+              background: isDarkMode ? '#A0AEC0' : 'white',
             }}
           />
           <Bar dataKey='population' fill={`url(#${fillId})`} />
