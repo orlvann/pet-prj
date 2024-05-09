@@ -10,16 +10,16 @@ const TotalPopulation: React.FC<TotalPopulationProps> = ({ total }) => {
   const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
 
   return (
-    <div className='total-population'>
+    <div className="total-population">
       <Box
         bg={bgColor}
         borderColor={borderColor}
         p={10}
-        shadow='md'
-        borderWidth='1px'
+        shadow="md"
+        borderWidth="1px"
       >
-        <Text fontSize='xl'>Total Population in Europe</Text>
-        <Text fontSize='2xl'>{total.toLocaleString()}</Text>
+        <Text fontSize="xl">Total Population in Europe</Text>
+        <Text fontSize="2xl">{total.toLocaleString()}</Text>
       </Box>
     </div>
   );

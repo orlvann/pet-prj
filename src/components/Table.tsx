@@ -5,7 +5,7 @@ import {
   Tr,
   Th,
   Td,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export interface TableColumn {
   key: string;

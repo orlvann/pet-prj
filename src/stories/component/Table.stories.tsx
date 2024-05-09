@@ -1,9 +1,9 @@
-import { Image } from "@chakra-ui/react";
-import { Meta, StoryFn } from "@storybook/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Table, TableColumn, TableProps } from "../../components/Table";
-import { fn } from "@storybook/test";
+import { Image } from '@chakra-ui/react';
+import { Meta, StoryFn } from '@storybook/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Table, TableColumn, TableProps } from '../../components/Table';
+import { fn } from '@storybook/test';
 
 interface IData {
   code: string;
@@ -16,18 +16,18 @@ interface IData {
 
 const DATA: IData[] = [
   {
-    code: "MD",
-    name: "Moldova",
-    flag: "https://flagcdn.com/w320/md.png",
-    capital: "Chișinău",
+    code: 'MD',
+    name: 'Moldova',
+    flag: 'https://flagcdn.com/w320/md.png',
+    capital: 'Chișinău',
     population: 27657145,
     independent: true,
   },
   {
-    code: "MD",
-    name: "Moldova",
-    flag: "https://flagcdn.com/w320/md.png",
-    capital: "Chișinău",
+    code: 'MD',
+    name: 'Moldova',
+    flag: 'https://flagcdn.com/w320/md.png',
+    capital: 'Chișinău',
     population: 27657145,
     independent: true,
   },
@@ -35,46 +35,46 @@ const DATA: IData[] = [
 
 const COLUMNS: TableColumn[] = [
   {
-    key: "code",
-    fieldName: "code",
-    name: "Country Code",
+    key: 'code',
+    fieldName: 'code',
+    name: 'Country Code',
   },
   {
-    key: "name",
-    fieldName: "name",
-    name: "Name",
+    key: 'name',
+    fieldName: 'name',
+    name: 'Name',
   },
   {
-    key: "flag",
-    fieldName: "flag",
-    name: "Flag",
+    key: 'flag',
+    fieldName: 'flag',
+    name: 'Flag',
     onRender(item: IData) {
       return <Image src={item.flag} alt="Flag" height="20px" />;
     },
   },
   {
-    key: "capital",
-    fieldName: "capital",
-    name: "Capital",
+    key: 'capital',
+    fieldName: 'capital',
+    name: 'Capital',
   },
   {
-    key: "population",
-    fieldName: "population",
-    name: "Population",
+    key: 'population',
+    fieldName: 'population',
+    name: 'Population',
   },
 
   {
-    key: "independent",
-    fieldName: "independent",
-    name: "Independent",
+    key: 'independent',
+    fieldName: 'independent',
+    name: 'Independent',
     onRender(item: IData) {
-      return <span>{item.independent ? "Yes" : "No"}</span>;
+      return <span>{item.independent ? 'Yes' : 'No'}</span>;
     },
   },
 ];
 
 export default {
-  title: "Components/Table",
+  title: 'Components/Table',
   component: Table,
   decorators: [
     (StoryFn: StoryFn<TableProps>) => (
@@ -89,9 +89,9 @@ export default {
     onRowClick: fn(),
   },
   argTypes: {
-    onRowClick: { action: "onRowClick" },
-    data: { control: { type: "object" } },
-    columns: { control: { type: "object" } },
+    onRowClick: { action: 'onRowClick' },
+    data: { control: { type: 'object' } },
+    columns: { control: { type: 'object' } },
   },
 } as Meta<TableProps>;
 
