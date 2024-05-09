@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useColorMode, Box } from '@chakra-ui/react';
+import { formatNumbers } from '../utils/formatNumbers';
 
 export interface CustomBarChartProps {
   data: { name: string; population: number }[];
@@ -23,10 +24,6 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
   const gridColor = isDarkMode ? '#e0e0e0' : '#e0e0e0';
 
   const fillId = isDarkMode ? 'whiteGradient' : 'colorfulGradient';
-
-  const formatNumbers = (value: number) => {
-    return `${(value / 1000000).toFixed(1)} million`;
-  };
 
   return (
     <Box bg={bgColor} borderColor={borderColor} p={4}>
@@ -54,9 +51,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
           <XAxis dataKey="name" stroke={textColor} />
           <YAxis stroke={textColor} tickFormatter={formatNumbers} />
           <Tooltip
-            formatter={(value: number) =>
-              `${(value / 1000000).toFixed(1)} million`
-            }
+            formatter={formatNumbers}
             labelStyle={{ color: textColor }}
             itemStyle={{ color: textColor }}
             cursor={{ fill: 'transparent' }}

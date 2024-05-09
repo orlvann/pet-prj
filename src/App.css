@@ -47,7 +47,7 @@ body.dark-mode .top-bar {
 }
 
 .table {
-  width: calc(100% - 2rem);
+  width: 100%;
   max-width: 1247px;
   margin: auto;
   height: auto;
@@ -152,5 +152,5 @@ body.dark-mode .top-bar {
 .total-population {
   width: 100%;
   max-width: 1247px;
-  margin: 1;
+  margin: 10px auto;
 }
