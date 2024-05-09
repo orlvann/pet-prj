@@ -2,7 +2,6 @@ import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import CustomBarChart, { CustomBarChartProps } from '../../components/BarChart';
 import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 interface IData {
   name: string;
@@ -24,11 +23,9 @@ export default {
   component: CustomBarChart,
   decorators: [
     (StoryFn: StoryFn<CustomBarChartProps>) => (
-      <Router>
-        <ChakraProvider>
-          <StoryFn data={[]} />
-        </ChakraProvider>
-      </Router>
+      <ChakraProvider>
+        <StoryFn data={[]} />
+      </ChakraProvider>
     ),
   ],
 } as Meta;
