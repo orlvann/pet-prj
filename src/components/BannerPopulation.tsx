@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
-import { calculateTotalPopulation } from '../utils/calculations';
+import { calculations } from '../utils/calculations';
 
 export interface BannerProps {
   data: { total: number }[];
@@ -10,7 +10,7 @@ const Banner: React.FC<BannerProps> = ({ data }) => {
   const { colorMode } = useColorMode();
   const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
   const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
-  const totalPopulation = calculateTotalPopulation(data);
+  const totalPopulation = calculations(data.map((item) => item.total));
 
   return (
     <div className="total-population">

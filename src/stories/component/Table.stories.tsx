@@ -1,6 +1,5 @@
 import { Image } from '@chakra-ui/react';
 import { Meta, StoryFn } from '@storybook/react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Table, TableColumn, TableProps } from '../../components/Table';
 import { fn } from '@storybook/test';
@@ -78,11 +77,9 @@ export default {
   component: Table,
   decorators: [
     (StoryFn: StoryFn<TableProps>) => (
-      <Router>
-        <ChakraProvider>
-          <StoryFn columns={[]} data={[]} />
-        </ChakraProvider>
-      </Router>
+      <ChakraProvider>
+        <StoryFn columns={[]} data={[]} />
+      </ChakraProvider>
     ),
   ],
   args: {

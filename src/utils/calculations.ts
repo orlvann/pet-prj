@@ -1,3 +1,3 @@
-export const calculateTotalPopulation = (data: { total: number }[]) => {
-  return data.reduce((acc, item) => acc + item.total, 0);
+export const calculations = (numbers: number[]) => {
+  return numbers.reduce((acc, number) => acc + number, 0);
 };

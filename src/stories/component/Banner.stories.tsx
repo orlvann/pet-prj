@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import Banner, { BannerProps } from '../../../src/components/BannerPopulation';
 import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+
 interface IData {
   total: number;
 }
@@ -18,11 +18,9 @@ export default {
   component: Banner,
   decorators: [
     (StoryFn: StoryFn) => (
-      <Router>
-        <ChakraProvider>
-          <StoryFn data={[]} />
-        </ChakraProvider>
-      </Router>
+      <ChakraProvider>
+        <StoryFn data={[]} />
+      </ChakraProvider>
     ),
   ],
 } as Meta;
