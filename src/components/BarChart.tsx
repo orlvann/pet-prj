@@ -30,7 +30,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
 
   return (
     <Box bg={bgColor} borderColor={borderColor} p={4}>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
           margin={{
@@ -41,17 +41,17 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
           }}
         >
           <defs>
-            <linearGradient id='whiteGradient' x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='5%' stopColor='white' stopOpacity={0.8} />
-              <stop offset='95%' stopColor='#A0AEC0' stopOpacity={0.8} />
+            <linearGradient id="whiteGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="white" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#A0AEC0" stopOpacity={0.8} />
             </linearGradient>
-            <linearGradient id='colorfulGradient' x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='5%' stopColor='#4A5568' stopOpacity={0.8} />
-              <stop offset='95%' stopColor='#e0e0e0' stopOpacity={0.8} />
+            <linearGradient id="colorfulGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#4A5568" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#e0e0e0" stopOpacity={0.8} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray='3 3' stroke={gridColor} />
-          <XAxis dataKey='name' stroke={textColor} />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+          <XAxis dataKey="name" stroke={textColor} />
           <YAxis stroke={textColor} tickFormatter={formatNumbers} />
           <Tooltip
             formatter={(value: number) =>
@@ -70,7 +70,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
               background: isDarkMode ? '#A0AEC0' : 'white',
             }}
           />
-          <Bar dataKey='population' fill={`url(#${fillId})`} />
+          <Bar dataKey="population" fill={`url(#${fillId})`} />
         </BarChart>
       </ResponsiveContainer>
     </Box>

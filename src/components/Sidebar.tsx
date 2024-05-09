@@ -16,23 +16,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
     <Flex
       bg={bgColor}
       borderColor={borderColor}
-      direction='column'
-      position='fixed'
+      direction="column"
+      position="fixed"
       left={isOpen ? '0' : '-250px'}
-      top='0'
-      p='5'
-      h='100vh'
-      shadow='md '
-      width='250px'
-      overflowY='auto'
-      transition='all 0.2s '
-      zIndex='10'
+      top="0"
+      p="5"
+      h="100vh"
+      shadow="md "
+      width="250px"
+      overflowY="auto"
+      transition="all 0.2s "
+      zIndex="10"
     >
-      <Box mb='55' />
+      <Box mb="55" />
       {isOpen && (
         <List spacing={2}>
           <ListItem>
-            <Link href='/' display='flex' alignItems='center'>
+            <Link href="/" display="flex" alignItems="center">
               <ListIcon as={FiHome} />
               Dashboard
             </Link>

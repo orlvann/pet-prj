@@ -13,15 +13,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
 
   return (
-    <Box bg={bgColor} borderColor={borderColor} className='search'>
+    <Box bg={bgColor} borderColor={borderColor} className="search">
       <InputGroup>
         <InputLeftElement
-          pointerEvents='none'
-          children={<SearchIcon color='gray.300' />}
+          pointerEvents="none"
+          children={<SearchIcon color="gray.300" />}
         />
         <Input
-          type='text'
-          placeholder='Search'
+          type="text"
+          placeholder="Search"
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />

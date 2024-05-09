@@ -29,7 +29,7 @@ const renderCountryDetail = (country: Country) => {
     ) {
       return (
         <Box key={key}>
-          <Heading as='h3' size='md'>
+          <Heading as="h3" size="md">
             {key}
           </Heading>
           {renderCountryDetail(value)}
@@ -91,38 +91,38 @@ export const CountryDetail = () => {
   const country = countryData[0];
 
   return (
-    <Flex direction='column' align='center' h='100vh'>
+    <Flex direction="column" align="center" h="100vh">
       <Flex
-        w='full'
-        justifyContent='space-between'
+        w="full"
+        justifyContent="space-between"
         p={5}
         bg={colorMode === 'dark' ? 'gray.800' : 'white'}
       >
         <IconButton
           icon={<FiMenu />}
           onClick={onToggle}
-          aria-label='Open Menu'
-          position='fixed'
-          top='1rem'
-          left='1rem'
-          zIndex='20'
+          aria-label="Open Menu"
+          position="fixed"
+          top="1rem"
+          left="1rem"
+          zIndex="20"
         />
         <Sidebar isOpen={isOpen} onToggle={onToggle} />
-        <Box width='2.5rem' height='2.5rem' />
+        <Box width="2.5rem" height="2.5rem" />
 
         <DarkModeSwitch />
       </Flex>
       {country && (
-        <VStack spacing={4} align='center' w='full' p={4}>
-          <Heading as='h2' size='xl'>
+        <VStack spacing={4} align="center" w="full" p={4}>
+          <Heading as="h2" size="xl">
             {country.name.official}
           </Heading>
           <Image
             src={country.flags.png}
             alt={`Flag of ${country.name.common}`}
-            boxSize='100px'
+            boxSize="100px"
           />
-          <VStack align='center' spacing={4} w='full'>
+          <VStack align="center" spacing={4} w="full">
             {renderCountryDetail(country)}
           </VStack>
         </VStack>
