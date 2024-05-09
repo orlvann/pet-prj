@@ -19,12 +19,12 @@ const Banner: React.FC<BannerProps> = ({ data }) => {
   );
 
   return (
-    <div className='total-population'>
+    <div className="total-population">
       <Box bg={bgColor} p={10} borderRadius={'10px'} width={300}>
-        <Text fontSize='sm' fontWeight='medium' color='gray.500'>
+        <Text fontSize="sm" fontWeight="medium" color="gray.500">
           Total Population in Europe
         </Text>
-        <Text fontSize='3xl' fontWeight='bold' color={textColor}>
+        <Text fontSize="3xl" fontWeight="bold" color={textColor}>
           {formatNumber(totalPopulation)}
         </Text>
       </Box>
