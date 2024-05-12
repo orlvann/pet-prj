@@ -1,74 +1,68 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useFetchCountryDetail } from '../api/countries';
 import {
   Box,
-  Heading,
   Text,
   Image,
   VStack,
   Spinner,
   Alert,
   AlertIcon,
+  Heading,
+  SimpleGrid,
 } from '@chakra-ui/react';
-import { useFetchCountryDetail } from '../api/countries';
 
-export const CountryDetail = (): JSX.Element => {
+export const CountryDetail = () => {
   const { code } = useParams<{ code?: string }>();
+
+  console.log('Country code received:', code);
+
   const { data: country, isLoading, error } = useFetchCountryDetail(code);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   if (error) {
     return (
       <Alert status="error">
         <AlertIcon />
-        {error.message || 'Failed to fetch country details'}
+        {error.message}
       </Alert>
     );
   }
 
-  if (isLoading) {
-    return (
-      <Box textAlign="center" py={10}>
-        <Spinner size="xl" />
-      </Box>
-    );
-  }
-
-  if (!country || !country.name || !country.flags) {
+  if (!country) {
     return (
       <Alert status="info">
         <AlertIcon />
-        No country found or incomplete data received.
+        No country found or data is incomplete.
       </Alert>
     );
   }
 
   return (
     <Box p={5}>
+      <Heading as="h1" mb={4}>
+        Country Details
+      </Heading>
       <VStack spacing={4} align="stretch">
-        <Heading as="h1" size="xl">
-          {country.name.common || 'Country Name Not Available'}
-        </Heading>
         <Image
           borderRadius="full"
           boxSize="150px"
           src={country.flags.svg}
-          alt={`Flag of ${country.name.common || 'Unavailable'}`}
+          alt={`Flag of ${country.name.common}`}
         />
-        {country.capital && (
-          <Text fontSize="2xl" fontWeight="bold" mt={2}>
-            Capital: {country.capital[0] || 'No Capital'}
+        <SimpleGrid columns={2} spacing={10}>
+          <Text>
+            <b>Official Name:</b> {country.name.official}
           </Text>
-        )}
-        {country.population && (
-          <Text fontSize="xl">
-            Population: {country.population.toLocaleString()}
+          <Text>
+            <b>Common Name:</b> {country.name.common}
           </Text>
-        )}
-        {country.region && (
-          <Text fontSize="md">
-            Region: {country.region} - {country.subregion}
-          </Text>
-        )}
+          {/* Further details as needed */}
+        </SimpleGrid>
       </VStack>
     </Box>
   );

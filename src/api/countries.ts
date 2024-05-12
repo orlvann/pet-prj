@@ -106,10 +106,21 @@ export const useFetchEUCountries = () => {
 export const useFetchCountryDetail = (countryCode: string | undefined) => {
   return useQuery<Country, Error>(
     ['country', countryCode],
-    () =>
-      fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`).then((res) =>
-        res.json()
-      ),
+    async () => {
+      if (!countryCode) {
+        throw new Error('Country code is not provided or is undefined');
+      }
+      console.log('Fetching data for country code:', countryCode);
+      const response = await fetch(
+        `https://restcountries.com/v3.1/alpha/${countryCode}`
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch country data: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log('Received data:', data);
+      return data;
+    },
     {
       enabled: !!countryCode,
     }
