@@ -118,6 +118,7 @@ const Dashboard: React.FC = () => {
 
   const handleOnRowClick = (country: Country) =>
     navigate(`/country/${country.cca3}`);
+
   const filteredData = mappedData.filter(
     (item) =>
       !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase())

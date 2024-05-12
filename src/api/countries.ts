@@ -103,13 +103,15 @@ export const useFetchEUCountries = () => {
   return useQuery<Country[], Error>('countries', fetchEUCountries);
 };
 
-export const useFetchCountryDetail = (countryCode: string) => {
+export const useFetchCountryDetail = (countryCode: string | undefined) => {
   return useQuery<Country, Error>(
     ['country', countryCode],
     () =>
       fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`).then((res) =>
         res.json()
       ),
-    { enabled: !!countryCode }
+    {
+      enabled: !!countryCode,
+    }
   );
 };

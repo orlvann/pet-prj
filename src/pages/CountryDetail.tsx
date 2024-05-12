@@ -2,132 +2,74 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Box,
-  Image,
-  Text,
-  Spinner,
   Heading,
+  Text,
+  Image,
   VStack,
-  IconButton,
-  Flex,
-  useDisclosure,
-  useColorMode,
+  Spinner,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
-import { useQuery } from 'react-query';
-import { Country } from '../api/countries';
-import { Sidebar } from '../components/Sidebar';
-import DarkModeSwitch from '../components/DarkModeSwitch';
-import { FiMenu } from 'react-icons/fi';
-import '../App.css';
+import { useFetchCountryDetail } from '../api/countries';
 
-const renderCountryDetail = (country: Country) => {
-  return Object.entries(country).map(([key, value]) => {
-    if (
-      value &&
-      typeof value === 'object' &&
-      !Array.isArray(value) &&
-      !(value instanceof Date)
-    ) {
-      return (
-        <Box key={key}>
-          <Heading as="h3" size="md">
-            {key}
-          </Heading>
-          {renderCountryDetail(value)}
-        </Box>
-      );
-    }
+export const CountryDetail = (): JSX.Element => {
+  const { code } = useParams<{ code?: string }>();
+  const { data: country, isLoading, error } = useFetchCountryDetail(code);
 
-    if (Array.isArray(value)) {
-      return (
-        <Text key={key}>
-          {key}: {value.join(', ')}
-        </Text>
-      );
-    }
-
-    if (value instanceof Date) {
-      return (
-        <Text key={key}>
-          {key}: {value.toDateString()}
-        </Text>
-      );
-    }
-
+  if (error) {
     return (
-      <Text key={key}>
-        {key}: {value.toString()}
-      </Text>
+      <Alert status="error">
+        <AlertIcon />
+        {error.message || 'Failed to fetch country details'}
+      </Alert>
     );
-  });
-};
+  }
 
-export const CountryDetail = () => {
-  const { countryCode } = useParams<{ countryCode: string }>();
-  const { colorMode } = useColorMode();
-  const { isOpen, onToggle } = useDisclosure();
-
-  const {
-    data: countryData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<Country[], Error>(
-    ['country', countryCode],
-    () =>
-      fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`).then((res) =>
-        res.json()
-      ),
-    {
-      enabled: !!countryCode,
-    }
-  );
-
-  if (isLoading) return <Spinner />;
-  if (isError || !countryData)
+  if (isLoading) {
     return (
-      <Box>An error occurred: {error?.message || 'Country not found'}</Box>
+      <Box textAlign="center" py={10}>
+        <Spinner size="xl" />
+      </Box>
     );
+  }
 
-  const country = countryData[0];
+  if (!country || !country.name || !country.flags) {
+    return (
+      <Alert status="info">
+        <AlertIcon />
+        No country found or incomplete data received.
+      </Alert>
+    );
+  }
 
   return (
-    <Flex direction="column" align="center" h="100vh">
-      <Flex
-        w="full"
-        justifyContent="space-between"
-        p={5}
-        bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-      >
-        <IconButton
-          icon={<FiMenu />}
-          onClick={onToggle}
-          aria-label="Open Menu"
-          position="fixed"
-          top="1rem"
-          left="1rem"
-          zIndex="20"
+    <Box p={5}>
+      <VStack spacing={4} align="stretch">
+        <Heading as="h1" size="xl">
+          {country.name.common || 'Country Name Not Available'}
+        </Heading>
+        <Image
+          borderRadius="full"
+          boxSize="150px"
+          src={country.flags.svg}
+          alt={`Flag of ${country.name.common || 'Unavailable'}`}
         />
-        <Sidebar isOpen={isOpen} onToggle={onToggle} />
-        <Box width="2.5rem" height="2.5rem" />
-
-        <DarkModeSwitch />
-      </Flex>
-      {country && (
-        <VStack spacing={4} align="center" w="full" p={4}>
-          <Heading as="h2" size="xl">
-            {country.name.official}
-          </Heading>
-          <Image
-            src={country.flags.png}
-            alt={`Flag of ${country.name.common}`}
-            boxSize="100px"
-          />
-          <VStack align="center" spacing={4} w="full">
-            {renderCountryDetail(country)}
-          </VStack>
-        </VStack>
-      )}
-    </Flex>
+        {country.capital && (
+          <Text fontSize="2xl" fontWeight="bold" mt={2}>
+            Capital: {country.capital[0] || 'No Capital'}
+          </Text>
+        )}
+        {country.population && (
+          <Text fontSize="xl">
+            Population: {country.population.toLocaleString()}
+          </Text>
+        )}
+        {country.region && (
+          <Text fontSize="md">
+            Region: {country.region} - {country.subregion}
+          </Text>
+        )}
+      </VStack>
+    </Box>
   );
 };
-export default CountryDetail;

@@ -7,24 +7,14 @@ import theme from './theme/theme';
 
 const queryClient = new QueryClient();
 
-const rootLoader = async () => {
-  return Dashboard;
-};
-
-const countryLoader = async () => {
-  return CountryDetail;
-};
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Dashboard />,
-    loader: rootLoader,
   },
   {
-    path: 'country/:countryCode',
+    path: '/country/:code',
     element: <CountryDetail />,
-    loader: countryLoader,
   },
 ]);
 
