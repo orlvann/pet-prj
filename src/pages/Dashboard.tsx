@@ -135,7 +135,7 @@ const Dashboard: React.FC = () => {
     }));
 
   return (
-    <Box className="dashboard-container">
+    <Box className="dashboard-container" bg={bgColor} borderColor={borderColor}>
       <IconButton
         icon={<FiMenu />}
         onClick={onToggle}

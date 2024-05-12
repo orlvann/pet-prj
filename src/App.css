@@ -14,7 +14,7 @@ body {
 
 body.dark-mode {
   background-color: #333;
-  color: white;
+  background-color: #fafafa;
 }
 
 .top-bar {
