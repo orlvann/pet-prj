@@ -181,7 +181,7 @@ const Dashboard: React.FC = () => {
           borderColor={borderColor}
           className="total-population"
         >
-          <Banner data={[{ total: totalPopulation }]} />
+          <Banner data={[{ population: totalPopulation }]} />
           <Box
             bg={bgColor}
             borderColor={borderColor}

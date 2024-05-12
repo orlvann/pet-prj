@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import AreaBanner, {
-  AreaBannerProps,
+  AreaDisplayProps,
 } from '../../../src/components/BannerArea';
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -27,7 +27,7 @@ export default {
   ],
 } as Meta;
 
-const Template: StoryFn<AreaBannerProps> = (args) => <AreaBanner {...args} />;
+const Template: StoryFn<AreaDisplayProps> = (args) => <AreaBanner {...args} />;
 
 export const Default = Template.bind({});
 

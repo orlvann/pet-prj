@@ -1,12 +1,16 @@
-export const formatNumbers = (value: number): string => {
-  return `${(value / 1000000).toFixed(1)} million`;
-};
+export const formatNumbers = (value: number, ...args: any[]): string => {
+  let unit = 'million';
+  let decimals = 1;
 
-export const formatValue = (
-  value: number,
-  unit: string,
-  decimals: number
-): string => {
+  if (args.length > 0) {
+    if (typeof args[0] === 'string') {
+      unit = args[0];
+    }
+    if (typeof args[1] === 'number') {
+      decimals = args[1];
+    }
+  }
+
   const formattedNumber = (value / 1000000).toFixed(decimals);
   return `${formattedNumber} ${unit}`;
 };
