@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: '/country/:code',
+    path: '/country/:countryCode',
     element: <CountryDetail />,
   },
 ]);

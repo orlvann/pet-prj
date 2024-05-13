@@ -12,8 +12,8 @@ export interface Name {
 }
 
 export interface Flags {
-  png: string;
-  svg: string;
+  png?: string;
+  svg?: string;
   alt?: string;
 }
 
@@ -108,20 +108,22 @@ export const useFetchCountryDetail = (countryCode: string | undefined) => {
     ['country', countryCode],
     async () => {
       if (!countryCode) {
+        // Throwing an error when countryCode is undefined or is not provided
         throw new Error('Country code is not provided or is undefined');
       }
-      console.log('Fetching data for country code:', countryCode);
       const response = await fetch(
         `https://restcountries.com/v3.1/alpha/${countryCode}`
       );
       if (!response.ok) {
-        throw new Error(`Failed to fetch country data: ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch country data: ${response.status} ${response.statusText}`
+        );
       }
       const data = await response.json();
-      console.log('Received data:', data);
       return data;
     },
     {
+      // We control the execution here; if no countryCode, the query won't execute.
       enabled: !!countryCode,
     }
   );

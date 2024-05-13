@@ -1,69 +1,132 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useFetchCountryDetail } from '../api/countries';
 import {
   Box,
-  Text,
   Image,
-  VStack,
+  Text,
   Spinner,
-  Alert,
-  AlertIcon,
   Heading,
-  SimpleGrid,
+  VStack,
+  IconButton,
+  Flex,
+  useDisclosure,
+  useColorMode,
 } from '@chakra-ui/react';
+import { useQuery } from 'react-query';
+import { Country } from '../api/countries';
+import { Sidebar } from '../components/Sidebar';
+import DarkModeSwitch from '../components/DarkModeSwitch';
+import { FiMenu } from 'react-icons/fi';
+import '../App.css';
+
+const renderCountryDetail = (country: Country) => {
+  return Object.entries(country).map(([key, value]) => {
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    ) {
+      return (
+        <Box key={key}>
+          <Heading as="h3" size="md">
+            {key}
+          </Heading>
+          {renderCountryDetail(value)}
+        </Box>
+      );
+    }
+
+    if (Array.isArray(value)) {
+      return (
+        <Text key={key}>
+          {key}: {value.join(', ')}
+        </Text>
+      );
+    }
+
+    if (value instanceof Date) {
+      return (
+        <Text key={key}>
+          {key}: {value.toDateString()}
+        </Text>
+      );
+    }
+
+    return (
+      <Text key={key}>
+        {key}: {value.toString()}
+      </Text>
+    );
+  });
+};
 
 export const CountryDetail = () => {
-  const { code } = useParams<{ code?: string }>();
+  const { countryCode } = useParams<{ countryCode: string }>();
+  const { colorMode } = useColorMode();
+  const { isOpen, onToggle } = useDisclosure();
 
-  console.log('Country code received:', code);
+  const {
+    data: countryData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<Country[], Error>(
+    ['country', countryCode],
+    () =>
+      fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`).then((res) =>
+        res.json()
+      ),
+    {
+      enabled: !!countryCode,
+    }
+  );
 
-  const { data: country, isLoading, error } = useFetchCountryDetail(code);
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (error) {
+  if (isLoading) return <Spinner />;
+  if (isError || !countryData)
     return (
-      <Alert status="error">
-        <AlertIcon />
-        {error.message}
-      </Alert>
+      <Box>An error occurred: {error?.message || 'Country not found'}</Box>
     );
-  }
 
-  if (!country) {
-    return (
-      <Alert status="info">
-        <AlertIcon />
-        No country found or data is incomplete.
-      </Alert>
-    );
-  }
+  const country = countryData[0];
 
   return (
-    <Box p={5}>
-      <Heading as="h1" mb={4}>
-        Country Details
-      </Heading>
-      <VStack spacing={4} align="stretch">
-        <Image
-          borderRadius="full"
-          boxSize="150px"
-          src={country.flags.svg}
-          alt={`Flag of ${country.name.common}`}
+    <Flex direction="column" align="center" h="100vh">
+      <Flex
+        w="full"
+        justifyContent="space-between"
+        p={5}
+        bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+      >
+        <IconButton
+          icon={<FiMenu />}
+          onClick={onToggle}
+          aria-label="Open Menu"
+          position="fixed"
+          top="1rem"
+          left="1rem"
+          zIndex="20"
         />
-        <SimpleGrid columns={2} spacing={10}>
-          <Text>
-            <b>Official Name:</b> {country.name.official}
-          </Text>
-          <Text>
-            <b>Common Name:</b> {country.name.common}
-          </Text>
-          {/* Further details as needed */}
-        </SimpleGrid>
-      </VStack>
-    </Box>
+        <Sidebar isOpen={isOpen} onToggle={onToggle} />
+        <Box width="2.5rem" height="2.5rem" />
+
+        <DarkModeSwitch />
+      </Flex>
+      {country && (
+        <VStack spacing={4} align="center" w="full" p={4}>
+          <Heading as="h2" size="xl">
+            {country.name.official}
+          </Heading>
+          <Image
+            src={country.flags.png}
+            alt={`Flag of ${country.name.common}`}
+            boxSize="100px"
+          />
+          <VStack align="center" spacing={4} w="full">
+            {renderCountryDetail(country)}
+          </VStack>
+        </VStack>
+      )}
+    </Flex>
   );
 };
+export default CountryDetail;
