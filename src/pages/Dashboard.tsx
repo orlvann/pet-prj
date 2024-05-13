@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
         left="0"
         right="0"
       >
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SearchBar data={[{ value: searchTerm, onChange: setSearchTerm }]} />
         <Box flex="1" textAlign="right">
           <DarkModeSwitch />
         </Box>
