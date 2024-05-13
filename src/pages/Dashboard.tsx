@@ -11,8 +11,8 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
-import { Table, TableColumn } from '../components/Table';
-import TotalPopulatioon from '../components/TotalPopulation';
+import { Table, TableColumn } from '../components/Table'; //
+import Banner from '../components/BannerPopulation';
 import PopulationBarChart from '../components/BarChart';
 import { Country, useFetchEUCountries } from '../api/countries';
 import '../App.css';
@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
       fieldName: 'flag',
       name: 'Flag',
       onRender(item: IData) {
-        return <Image src={item.flag} alt='Flag' height='20px' />;
+        return <Image src={item.flag} alt="Flag" height="20px" />;
       },
     },
     {
@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
       onRender(item: IData) {
         return (
           <Button
-            size='sm'
+            size="sm"
             colorScheme={item.independent ? 'gray' : 'gray'}
             variant={colorMode === 'dark' ? 'solid' : 'outline'}
             isDisabled={true}
@@ -135,49 +135,49 @@ const Dashboard: React.FC = () => {
     }));
 
   return (
-    <Box className='dashboard-container'>
+    <Box className="dashboard-container">
       <IconButton
         icon={<FiMenu />}
         onClick={onToggle}
-        aria-label='Open Menu'
-        position='fixed'
-        top='1rem'
-        left='1rem'
-        zIndex='20'
+        aria-label="Open Menu"
+        position="fixed"
+        top="1rem"
+        left="1rem"
+        zIndex="20"
       />
       <Sidebar isOpen={isOpen} onToggle={onToggle} />
       <Flex
-        as='header'
-        w='full'
-        justifyContent='space-between'
-        alignItems='center'
+        as="header"
+        w="full"
+        justifyContent="space-between"
+        alignItems="center"
         p={5}
         bg={bgColor}
-        borderBottom='1px'
+        borderBottom="1px"
         borderColor={borderColor}
-        zIndex='10'
-        position='fixed'
-        top='0'
-        left='0'
-        right='0'
+        zIndex="10"
+        position="fixed"
+        top="0"
+        left="0"
+        right="0"
       >
-        <SearchBar data={[{ value: searchTerm, onChange: setSearchTerm }]} />
-        <Box flex='1' textAlign='right'>
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <Box flex="1" textAlign="right">
           <DarkModeSwitch />
         </Box>
       </Flex>
-      <VStack className='vStack-container'>
+      <VStack className="vStack-container">
         <Box
           bg={bgColor}
           borderColor={borderColor}
-          className='total-population'
+          className="total-population"
         >
-          <TotalPopulatioon total={totalPopulation} />
+          <Banner data={[{ total: totalPopulation }]} />
         </Box>
-        <Box className='bar-chart'>
+        <Box className="bar-chart">
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}
         </Box>
-        <Box className='table'>
+        <Box className="table">
           <Table
             columns={columns}
             data={filteredData ?? []}

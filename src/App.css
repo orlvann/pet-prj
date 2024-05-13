@@ -12,13 +12,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Apply dark mode styles */
 body.dark-mode {
   background-color: #333;
   color: white;
 }
 
-/* Top Bar */
 .top-bar {
   position: fixed;
   top: 0;
@@ -36,12 +34,10 @@ body.dark-mode .top-bar {
   background-color: #1a202c;
 }
 
-/* Dashboard Container */
 .dashboard-container {
-  /* Changed from absolute to relative to use natural document flow */
   position: relative;
   display: flex;
-  flex-wrap: wrap; /* Allows elements to wrap onto the next line as needed */
+  flex-wrap: wrap;
   gap: 1rem;
   padding-top: 60px;
   padding-bottom: 1rem;
@@ -51,9 +47,9 @@ body.dark-mode .top-bar {
 }
 
 .table {
-  width: calc(100% - 2rem); /* Full width minus padding */
-  max-width: 1247px; /* Maximum width to maintain layout on large screens */
-  margin: auto; /* Center the table in the available space */
+  width: 100%;
+  max-width: 1247px;
+  margin: auto;
   height: auto;
   top: auto;
   left: auto;
@@ -64,19 +60,19 @@ body.dark-mode .top-bar {
 }
 
 .bar-chart {
-  width: 100%; /* Full width on mobile */
-  max-width: 1247px; /* Maximum width to maintain layout on large screens */
-  margin: auto; /* Center the chart */
+  width: 100%;
+  max-width: 1247px;
+  margin: auto;
   background: #ffffff;
   border-radius: 6px;
 }
 
 .total-population {
-  width: 100%; /* Full width on mobile */
-  max-width: 500px; /* Maximum width to maintain layout on large screens */
-  margin: auto; /* Center the box */
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
   padding: 1rem;
-  border-radius: 8px;
+
   text-align: center;
 }
 
@@ -142,19 +138,19 @@ body.dark-mode .top-bar {
 }
 
 .dashboard-container {
-  padding-top: 60px; /* Space for top bar */
-  padding-bottom: 1rem; /* Give some space at the bottom */
-  min-height: calc(100vh - 60px); /* Full height minus top bar */
+  padding-top: 60px;
+  padding-bottom: 1rem;
+  min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  align-items: center; /* This centers the children horizontally */
+  align-items: center;
   overflow: hidden;
 }
 
 .bar-chart,
 .table,
 .total-population {
-  width: 100%; /* This makes the elements take the full width of their parent */
-  max-width: 1247px; /* This ensures they don't get too wide on larger screens */
-  margin: 1;
+  width: 100%;
+  max-width: 1247px;
+  margin: 10px auto;
 }

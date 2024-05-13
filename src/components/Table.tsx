@@ -5,8 +5,8 @@ import {
   Tr,
   Th,
   Td,
-} from "@chakra-ui/react";
-
+} from '@chakra-ui/react';
+import { numberWithCommas } from '../utils/numberWithComma';
 export interface TableColumn {
   key: string;
   fieldName: string;
@@ -41,7 +41,9 @@ export const Table = ({
               <Td key={column.key}>
                 {column.onRender
                   ? column.onRender(item, idx)
-                  : item[column.fieldName]}
+                  : column.fieldName === 'population'
+                    ? numberWithCommas(item[column.fieldName])
+                    : item[column.fieldName]}
               </Td>
             ))}
           </Tr>
