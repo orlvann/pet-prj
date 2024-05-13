@@ -107,7 +107,14 @@ export const CountryDetail = () => {
           left="1rem"
           zIndex="20"
         />
-        <Sidebar isOpen={isOpen} onToggle={onToggle} />
+        <Sidebar
+          data={[
+            {
+              isOpen: isOpen,
+              onToggle: onToggle,
+            },
+          ]}
+        />
         <Box width="2.5rem" height="2.5rem" />
 
         <DarkModeSwitch />
