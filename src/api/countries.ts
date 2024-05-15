@@ -94,7 +94,9 @@ export interface Country {
 export const fetchEUCountries = async (): Promise<Country[]> => {
   const response = await fetch('https://restcountries.com/v3.1/region/europe');
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error(
+      `Failed to load European countries: ${response.status} ${response.statusText}`
+    );
   }
   return response.json();
 };
@@ -107,10 +109,8 @@ export const useFetchCountryDetail = (countryCode: string | undefined) => {
   return useQuery<Country, Error>(
     ['country', countryCode],
     async () => {
-      if (!countryCode) {
-        // Throwing an error when countryCode is undefined or is not provided
+      if (!countryCode)
         throw new Error('Country code is not provided or is undefined');
-      }
       const response = await fetch(
         `https://restcountries.com/v3.1/alpha/${countryCode}`
       );
@@ -119,12 +119,8 @@ export const useFetchCountryDetail = (countryCode: string | undefined) => {
           `Failed to fetch country data: ${response.status} ${response.statusText}`
         );
       }
-      const data = await response.json();
-      return data;
+      return response.json();
     },
-    {
-      // We control the execution here; if no countryCode, the query won't execute.
-      enabled: !!countryCode,
-    }
+    { enabled: !!countryCode }
   );
 };

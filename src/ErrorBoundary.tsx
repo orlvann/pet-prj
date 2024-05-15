@@ -1,50 +1,28 @@
-import React, { ErrorInfo } from 'react';
+import { useRouteError } from 'react-router-dom';
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode;
-}
+function ErrorBoundary() {
+  const error = useRouteError();
 
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
-}
-
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error, errorInfo: null };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
-    this.setState({ error, errorInfo });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div>
-          <h2>Oops! Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo?.componentStack}
-          </details>
-          <button onClick={() => window.location.reload()}>Try Again</button>
-        </div>
-      );
+  const getErrorDetails = (error: unknown): string => {
+    if (typeof error === 'string') {
+      return error;
+    } else if (error instanceof Error) {
+      return error.stack || error.message || 'An unknown error occurred';
     }
+    return 'An unexpected error type';
+  };
 
-    return this.props.children;
-  }
+  console.error('Error caught by ErrorBoundary:', error);
+
+  return (
+    <div>
+      <h1>Oops! Something went wrong.</h1>
+      <details style={{ whiteSpace: 'pre-wrap' }}>
+        {getErrorDetails(error)}
+      </details>
+      <button onClick={() => window.location.reload()}>Try Again</button>
+    </div>
+  );
 }
 
 export default ErrorBoundary;
