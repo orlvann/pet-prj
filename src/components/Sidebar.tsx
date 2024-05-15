@@ -2,16 +2,16 @@ import React from 'react';
 import { Flex, List, ListItem, ListIcon, Link, Box } from '@chakra-ui/react';
 import { FiHome, FiGlobe } from 'react-icons/fi';
 import { useColorMode } from '@chakra-ui/react';
+
 export interface SidebarProps {
-  data: { isOpen: boolean; onToggle: () => void }[];
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ data }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const { colorMode } = useColorMode();
   const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
-
-  const isOpen = data.length > 0 ? data[0].isOpen : false;
 
   return (
     <Flex
@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ data }) => {
       left={isOpen ? '0' : '-250px'}
       top="0"
       p="5"
-      height="700px"
+      height="99vh"
       shadow="md"
       width="250px"
       overflowY="auto"

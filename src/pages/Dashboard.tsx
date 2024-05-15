@@ -145,14 +145,7 @@ const Dashboard: React.FC = () => {
         left="1rem"
         zIndex="20"
       />
-      <Sidebar
-        data={[
-          {
-            isOpen: isOpen,
-            onToggle: onToggle,
-          },
-        ]}
-      />
+      <Sidebar isOpen={isOpen} onToggle={onToggle} />
       <Flex
         as="header"
         w="full"
