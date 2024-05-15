@@ -1,21 +1,23 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Banner, { BannerProps } from '../../../src/components/BannerPopulation';
+import PopulationBanner, {
+  PopulationDisplayProps,
+} from '../../components/BannerPopulation';
 import { ChakraProvider } from '@chakra-ui/react';
 
 interface IData {
-  total: number;
+  population: number;
 }
 
 const DATA: IData[] = [
   {
-    total: 746934072,
+    population: 746934072,
   },
 ];
 
 export default {
-  title: 'Components/Banner',
-  component: Banner,
+  title: 'Components/PopulationBanner',
+  component: PopulationBanner,
   decorators: [
     (StoryFn: StoryFn) => (
       <ChakraProvider>
@@ -25,7 +27,9 @@ export default {
   ],
 } as Meta;
 
-const Template: StoryFn<BannerProps> = (args) => <Banner {...args} />;
+const Template: StoryFn<PopulationDisplayProps> = (args) => (
+  <PopulationBanner {...args} />
+);
 
 export const Default = Template.bind({});
 
