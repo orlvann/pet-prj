@@ -2,9 +2,11 @@ import React from 'react';
 import { Input, InputGroup, InputLeftElement, Box } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
-interface SearchBarProps {
+
+export interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
+  placeholder?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
