@@ -9,15 +9,14 @@ export interface AreaDisplayProps {
 
 const AreaDisplay: React.FC<AreaDisplayProps> = ({ data }) => {
   const totalArea = calculations(data.map((item) => item.area));
-  const formattedArea = formatNumbers(totalArea, 'mln km²', 2);
-  const bannerData = [
-    {
-      label: 'Total Area of Europe',
-      value: formattedArea.toLocaleString(),
-    },
-  ];
+  const formattedArea = formatNumbers(totalArea, 'mln km²');
 
-  return <Banner data={bannerData} />;
+  return (
+    <Banner
+      label={'Total Area of Europe'}
+      value={formattedArea.toLocaleString()}
+    />
+  );
 };
 
 export default AreaDisplay;

@@ -9,14 +9,13 @@ export interface PopulationDisplayProps {
 const PopulationDisplay: React.FC<PopulationDisplayProps> = ({ data }) => {
   const totalPopulation = calculations(data.map((item) => item.population));
   const formattedPopulation = totalPopulation.toLocaleString('en-US');
-  const bannerData = [
-    {
-      label: 'Total Population in Europe',
-      value: formattedPopulation.toLocaleString(),
-    },
-  ];
 
-  return <Banner data={bannerData} />;
+  return (
+    <Banner
+      label={'Total Population in Europe'}
+      value={formattedPopulation.toLocaleString()}
+    />
+  );
 };
 
 export default PopulationDisplay;

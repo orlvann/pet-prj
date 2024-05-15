@@ -22,7 +22,6 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
   const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
   const isDarkMode = colorMode === 'dark';
   const gridColor = isDarkMode ? '#e0e0e0' : '#e0e0e0';
-
   const fillId = isDarkMode ? 'whiteGradient' : 'colorfulGradient';
 
   return (
@@ -49,9 +48,12 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis dataKey="name" stroke={textColor} />
-          <YAxis stroke={textColor} tickFormatter={formatNumbers} />
+          <YAxis
+            stroke={textColor}
+            tickFormatter={(value: any) => formatNumbers(value)}
+          />
           <Tooltip
-            formatter={formatNumbers}
+            formatter={(value: any) => `${formatNumbers(value)} `}
             labelStyle={{ color: textColor }}
             itemStyle={{ color: textColor }}
             cursor={{ fill: 'transparent' }}
