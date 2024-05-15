@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     loader: rootLoader,
   },
   {
-    path: 'country/:countryCode',
+    path: '/country/:countryCode',
     element: <CountryDetail />,
     loader: countryLoader,
   },
