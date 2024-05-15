@@ -1,23 +1,7 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import SearchBar, { SearchBarProps } from '../../../src/components/SearchBar';
 import { ChakraProvider } from '@chakra-ui/react';
-
-interface IData {
-  value: string;
-  placeholder: string;
-  onChange: (value: string) => void;
-}
-
-const DATA: IData[] = [
-  {
-    placeholder: 'Search',
-    value: '',
-    onChange: function (value: string): void {
-      console.log(value);
-    },
-  },
-];
+import SearchBar, { SearchBarProps } from '../../../src/components/SearchBar';
 
 export default {
   title: 'Components/SearchBar',
@@ -25,7 +9,12 @@ export default {
   decorators: [
     (StoryFn: StoryFn<SearchBarProps>) => (
       <ChakraProvider>
-        <StoryFn data={[]} />
+        <StoryFn
+          value={''}
+          onChange={function (value: string): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
       </ChakraProvider>
     ),
   ],
@@ -36,5 +25,7 @@ const Template: StoryFn<SearchBarProps> = (args) => <SearchBar {...args} />;
 export const Default = Template.bind({});
 
 Default.args = {
-  data: DATA,
+  value: '',
+  onChange: (value: string) => console.log(value),
+  placeholder: 'Search',
 };
