@@ -19,7 +19,7 @@ body.dark-mode {
 
 .app-container {
   display: flex;
-  flex-direction: column; /* Change to column for the new layout */
+  flex-direction: column;
 }
 
 .main-content {

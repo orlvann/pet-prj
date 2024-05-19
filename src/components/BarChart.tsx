@@ -17,7 +17,7 @@ export interface CustomBarChartProps {
 
 const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
   const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
+  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
   const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
   const isDarkMode = colorMode === 'dark';

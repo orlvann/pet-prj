@@ -29,7 +29,8 @@ export interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
+  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
+  const textColor = colorMode === 'dark' ? 'gray.50' : 'gray.800';
   const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
 
   const {
@@ -82,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         />
       </Box>
       <Box mt="3rem">
-        <List spacing={2}>
+        <List spacing={2} color={textColor}>
           <ListItem>
             <Link href="/" display="flex" alignItems="center">
               <ListIcon as={FiHome} />
@@ -95,6 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
               display="flex"
               alignItems="center"
               variant="link"
+              color={textColor}
             >
               <ListIcon as={FiGlobe} />
               Detailed Country Info
@@ -111,6 +113,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                       href={`/country/${country.cca3}`}
                       display="flex"
                       alignItems="center"
+                      color={textColor}
                     >
                       {country.name.common}
                     </Link>

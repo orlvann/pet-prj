@@ -1,7 +1,6 @@
 import React from 'react';
-import { Flex, IconButton } from '@chakra-ui/react';
+import { Flex, IconButton, useColorMode } from '@chakra-ui/react';
 import { FaBars, FaSun, FaMoon } from 'react-icons/fa';
-
 import Logo from './Logo';
 
 interface HeaderProps {
@@ -15,8 +14,14 @@ const Header: React.FC<HeaderProps> = ({
   isDarkMode,
   toggleDarkMode,
 }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
-    <Flex justify="space-between" w="100%">
+    <Flex
+      justify="space-between"
+      w="100%"
+      bg={colorMode === 'dark' ? 'gray.800' : 'gray.50'}
+    >
       <Flex align="center">
         <IconButton
           icon={<FaBars />}
@@ -26,9 +31,10 @@ const Header: React.FC<HeaderProps> = ({
         />
         <Logo />
       </Flex>
+
       <IconButton
-        icon={isDarkMode ? <FaSun /> : <FaMoon />}
-        onClick={toggleDarkMode}
+        icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
+        onClick={toggleColorMode}
         aria-label="Toggle Dark Mode"
       />
     </Flex>

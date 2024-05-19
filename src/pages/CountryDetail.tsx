@@ -6,14 +6,12 @@ import {
   Spinner,
   Heading,
   VStack,
-  IconButton,
   Flex,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
 import { Country } from '../api/countries';
 import { Sidebar } from '../components/Sidebar';
-import { FiMenu } from 'react-icons/fi';
 import '../App.css';
 
 const renderCountryDetail = (country: Country) => {
@@ -88,15 +86,6 @@ export const CountryDetail = () => {
 
   return (
     <Flex w="full" justifyContent="space-between" p={5}>
-      <IconButton
-        icon={<FiMenu />}
-        onClick={onToggle}
-        aria-label="Open Menu"
-        position="fixed"
-        top="80px"
-        left="1rem"
-        zIndex="20"
-      />
       <Sidebar isOpen={isOpen} onToggle={onToggle} />
 
       {country && (
