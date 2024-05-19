@@ -14,12 +14,13 @@ import { Sidebar } from '../components/Sidebar';
 import { Table, TableColumn } from '../components/Table'; //
 import Banner from '../components/BannerPopulation';
 import PopulationBarChart from '../components/BarChart';
-import { Country, useFetchEUCountries } from '../api/countries';
+import { useFetchEUCountries } from '../api/countries';
 import '../App.css';
 import SearchBar from '../components/SearchBar';
 import DarkModeSwitch from '../components/DarkModeSwitch';
 import { FiMenu } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import AreaBanner from '../components/BannerArea';
 
 interface IData {
   lp: number;
@@ -29,6 +30,7 @@ interface IData {
   capital: string;
   population: number;
   independent: boolean;
+  area: number;
 }
 
 const Dashboard: React.FC = () => {
@@ -47,11 +49,13 @@ const Dashboard: React.FC = () => {
 
   const mappedData = countriesData?.map((country, index) => ({
     lp: index,
+    code: country.cca3,
     name: country.name.common,
-    flag: country.flags.png,
+    flag: country.flags?.png,
     capital: country.capital.join(', '),
     population: country.population,
     independent: country.independent,
+    area: country.area,
   })) as IData[];
 
   const columns: TableColumn[] = [
@@ -116,14 +120,22 @@ const Dashboard: React.FC = () => {
   if (isLoadingCountries) return <Spinner />;
   if (isError || !mappedData) return <Box>Error fetching countries</Box>;
 
-  const handleOnRowClick = (country: Country) =>
-    navigate(`/country/${country.cca3}`);
+  const handleOnRowClick = (country: IData) => {
+    console.log('Navigating to country with code:', country.code);
+    navigate(`/country/${country.code}`);
+  };
+
   const filteredData = mappedData.filter(
     (item) =>
       !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const totalPopulation = filteredData.reduce(
     (acc, country) => acc + country.population,
+    0
+  );
+
+  const totalArea = filteredData.reduce(
+    (acc, country) => acc + country.area,
     0
   );
   const barChartData = filteredData
@@ -172,7 +184,19 @@ const Dashboard: React.FC = () => {
           borderColor={borderColor}
           className="total-population"
         >
-          <Banner data={[{ total: totalPopulation }]} />
+          <Banner data={[{ population: totalPopulation }]} />
+          <Box
+            bg={bgColor}
+            borderColor={borderColor}
+            flexDirection={{ base: 'column', md: 'row' }}
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%"
+            px="20px"
+            py="10px"
+          >
+            <AreaBanner data={[{ area: totalArea }]} />
+          </Box>
         </Box>
         <Box className="bar-chart">
           {!isLoadingCountries && <PopulationBarChart data={barChartData} />}

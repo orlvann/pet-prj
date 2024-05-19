@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, List, ListItem, ListIcon, Link, Box } from '@chakra-ui/react';
 import { FiHome } from 'react-icons/fi';
 import { useColorMode } from '@chakra-ui/react';
-interface SidebarProps {
+export interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
 }

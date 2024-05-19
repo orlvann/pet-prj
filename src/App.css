@@ -17,18 +17,17 @@ body.dark-mode {
   background-color: #fafafa;
 }
 
-.top-bar {
+/* .top-bar {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 1rem;
   background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 body.dark-mode .top-bar {
   background-color: #1a202c;
@@ -72,7 +71,14 @@ body.dark-mode .top-bar {
   max-width: 500px;
   margin: auto;
   padding: 1rem;
+  text-align: center;
+}
 
+.total-area {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -82,8 +88,6 @@ body.dark-mode .top-bar {
   height: 38px;
   left: 50%;
   transform: translateX(-50%);
-  top: 20px;
-
   border-radius: 4px;
 }
 

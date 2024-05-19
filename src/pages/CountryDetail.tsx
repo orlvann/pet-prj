@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Box,
@@ -109,7 +108,6 @@ export const CountryDetail = () => {
         />
         <Sidebar isOpen={isOpen} onToggle={onToggle} />
         <Box width="2.5rem" height="2.5rem" />
-
         <DarkModeSwitch />
       </Flex>
       {country && (
