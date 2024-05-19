@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Table as ChakraTable,
   Thead,
@@ -5,8 +6,12 @@ import {
   Tr,
   Th,
   Td,
+  Flex,
+  Box,
 } from '@chakra-ui/react';
+import { FaSortUp, FaSortDown, FaSort } from 'react-icons/fa';
 import { numberWithCommas } from '../utils/numberWithComma';
+
 export interface TableColumn {
   key: string;
   fieldName: string;
@@ -25,20 +30,68 @@ export const Table = ({
   data,
   onRowClick,
 }: TableProps): JSX.Element => {
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: 'asc' | 'desc' | null;
+  }>({
+    key: '',
+    direction: null,
+  });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return data;
+    const sorted = [...data].sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key])
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      if (a[sortConfig.key] > b[sortConfig.key])
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }, [data, sortConfig]);
+
+  const requestSort = (key: string) => {
+    let direction: 'asc' | 'desc' | null = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <ChakraTable variant="simple">
       <Thead>
         <Tr>
           {columns.map((column, index) => (
-            <Th key={index}>{column.name}</Th>
+            <Th
+              key={index}
+              onClick={() => requestSort(column.fieldName)}
+              cursor="pointer"
+              textAlign="center"
+            >
+              <Flex justify="center" align="center">
+                <Box mr="2">{column.name}</Box>
+                <Box>
+                  {sortConfig.key === column.fieldName ? (
+                    sortConfig.direction === 'asc' ? (
+                      <FaSortUp />
+                    ) : (
+                      <FaSortDown />
+                    )
+                  ) : (
+                    <FaSort />
+                  )}
+                </Box>
+              </Flex>
+            </Th>
           ))}
         </Tr>
       </Thead>
       <Tbody>
-        {data.map((item, idx) => (
+        {sortedData.map((item, idx) => (
           <Tr key={idx} onClick={() => onRowClick && onRowClick(item, idx)}>
             {columns.map((column) => (
-              <Td key={column.key}>
+              <Td key={column.key} textAlign="center">
                 {column.onRender
                   ? column.onRender(item, idx)
                   : column.fieldName === 'population'

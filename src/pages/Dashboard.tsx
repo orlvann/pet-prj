@@ -11,7 +11,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar';
-import { Table, TableColumn } from '../components/Table'; //
+import { Table, TableColumn } from '../components/Table';
 import Banner from '../components/BannerPopulation';
 import PopulationBarChart from '../components/BarChart';
 import { useFetchEUCountries } from '../api/countries';
@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
       fieldName: 'flag',
       name: 'Flag',
       onRender(item: IData) {
-        return <Image src={item.flag} alt="Flag" height="20px" />;
+        return <Image src={item.flag} alt="Flag" height="20px" width="30px" />;
       },
     },
     {
