@@ -25,7 +25,13 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
   const fillId = isDarkMode ? 'whiteGradient' : 'colorfulGradient';
 
   return (
-    <Box bg={bgColor} borderColor={borderColor} p={4}>
+    <Box
+      bg={bgColor}
+      borderColor={borderColor}
+      p={4}
+      borderRadius="10px"
+      className="bar-chart "
+    >
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}

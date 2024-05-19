@@ -9,12 +9,10 @@ import {
   IconButton,
   Flex,
   useDisclosure,
-  useColorMode,
 } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
 import { Country } from '../api/countries';
 import { Sidebar } from '../components/Sidebar';
-import DarkModeSwitch from '../components/DarkModeSwitch';
 import { FiMenu } from 'react-icons/fi';
 import '../App.css';
 
@@ -62,7 +60,6 @@ const renderCountryDetail = (country: Country) => {
 
 export const CountryDetail = () => {
   const { countryCode } = useParams<{ countryCode: string }>();
-  const { colorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
 
   const {
@@ -90,26 +87,18 @@ export const CountryDetail = () => {
   const country = countryData[0];
 
   return (
-    <Flex direction="column" align="center" h="100vh">
-      <Flex
-        w="full"
-        justifyContent="space-between"
-        p={5}
-        bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-      >
-        <IconButton
-          icon={<FiMenu />}
-          onClick={onToggle}
-          aria-label="Open Menu"
-          position="fixed"
-          top="1rem"
-          left="1rem"
-          zIndex="20"
-        />
-        <Sidebar isOpen={isOpen} onToggle={onToggle} />
-        <Box width="2.5rem" height="2.5rem" />
-        <DarkModeSwitch />
-      </Flex>
+    <Flex w="full" justifyContent="space-between" p={5}>
+      <IconButton
+        icon={<FiMenu />}
+        onClick={onToggle}
+        aria-label="Open Menu"
+        position="fixed"
+        top="80px"
+        left="1rem"
+        zIndex="20"
+      />
+      <Sidebar isOpen={isOpen} onToggle={onToggle} />
+
       {country && (
         <VStack spacing={4} align="center" w="full" p={4}>
           <Heading as="h2" size="xl">

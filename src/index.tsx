@@ -1,8 +1,7 @@
-// index.tsx
 import * as ReactDOM from 'react-dom/client';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import App from './App';
-import theme from './theme/theme'; // Ensure you import your theme with the color mode config
+import theme from './theme/theme';
 
 const container = document.getElementById('root');
 

@@ -5,6 +5,7 @@ import {
   Tr,
   Th,
   Td,
+  useColorMode,
 } from '@chakra-ui/react';
 import { numberWithCommas } from '../utils/numberWithComma';
 export interface TableColumn {
@@ -25,8 +26,17 @@ export const Table = ({
   data,
   onRowClick,
 }: TableProps): JSX.Element => {
+  const { colorMode } = useColorMode();
+  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
+  const borderColor = colorMode === 'dark' ? 'gray.600' : 'white';
+
   return (
-    <ChakraTable variant="simple">
+    <ChakraTable
+      variant="simple"
+      bg={bgColor}
+      borderColor={borderColor}
+      borderRadius="10px"
+    >
       <Thead>
         <Tr>
           {columns.map((column, index) => (
