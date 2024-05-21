@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VStack,
   Box,
@@ -43,101 +43,168 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode } = useColorMode();
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof IData;
+    direction: 'asc' | 'desc';
+  }>({
+    key: 'lp',
+    direction: 'asc',
+  });
+  const [filteredData, setFilteredData] = useState<IData[]>([]);
 
   const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
 
-  const mappedData = countriesData?.map((country, index) => ({
-    lp: index,
-    code: country.cca3,
-    name: country.name.common,
-    flag: country.flags?.png,
-    capital: country.capital.join(', '),
-    population: country.population,
-    independent: country.independent,
-    area: country.area,
-  })) as IData[];
+  useEffect(() => {
+    if (countriesData) {
+      const mappedData = countriesData.map((country, index) => ({
+        lp: index,
+        code: country.cca3,
+        name: country.name.common,
+        flag: country.flags?.png,
+        capital: country.capital.join(', '),
+        population: country.population,
+        independent: country.independent,
+        area: country.area,
+      })) as IData[];
+      setFilteredData(mappedData);
+    }
+  }, [countriesData]);
+
+  useEffect(() => {
+    let sortedData = [...filteredData];
+    sortedData.sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    setFilteredData(sortedData);
+  }, [filteredData, sortConfig]);
+
+  const handleSortChange = (
+    ev: React.MouseEvent<HTMLElement>,
+    column: TableColumn
+  ) => {
+    const key = column.fieldName as keyof IData;
+    setSortConfig((prevState) => ({
+      key,
+      direction:
+        prevState.key === key && prevState.direction === 'asc' ? 'desc' : 'asc',
+    }));
+  };
+
+  useEffect(() => {
+    if (countriesData) {
+      const mappedData = countriesData.map((country, index) => ({
+        lp: index,
+        code: country.cca3,
+        name: country.name.common,
+        flag: country.flags?.png,
+        capital: country.capital.join(', '),
+        population: country.population,
+        independent: country.independent,
+        area: country.area,
+      })) as IData[];
+
+      const filtered = mappedData.filter(
+        (item) =>
+          !searchTerm ||
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchTerm, countriesData]);
 
   const columns: TableColumn[] = [
     {
       key: 'lp',
       fieldName: 'lp',
       name: 'LP',
+      onColumnClick: handleSortChange,
+      isSorted: sortConfig.key === 'lp',
+      isSortedDescending: sortConfig.direction === 'desc',
     },
     {
       key: 'name',
       fieldName: 'name',
       name: 'Name',
+      onColumnClick: handleSortChange,
+      isSorted: sortConfig.key === 'name',
+      isSortedDescending: sortConfig.direction === 'desc',
     },
     {
       key: 'flag',
       fieldName: 'flag',
       name: 'Flag',
-      onRender(item: IData) {
-        return <Image src={item.flag} alt="Flag" height="20px" width="30px" />;
-      },
+      onRender: (item: IData) => (
+        <Image src={item.flag} alt="Flag" height="20px" />
+      ),
     },
     {
       key: 'capital',
       fieldName: 'capital',
       name: 'Capital',
+      onColumnClick: handleSortChange,
+      isSorted: sortConfig.key === 'capital',
+      isSortedDescending: sortConfig.direction === 'desc',
     },
     {
       key: 'population',
       fieldName: 'population',
       name: 'Population',
+      onColumnClick: handleSortChange,
+      isSorted: sortConfig.key === 'population',
+      isSortedDescending: sortConfig.direction === 'desc',
     },
     {
       key: 'independent',
       fieldName: 'independent',
       name: 'Independent',
-      onRender(item: IData) {
-        return (
-          <Button
-            size="sm"
-            colorScheme={item.independent ? 'gray' : 'gray'}
-            variant={colorMode === 'dark' ? 'solid' : 'outline'}
-            isDisabled={true}
-            _disabled={{
-              bg: item.independent
-                ? colorMode === 'light'
-                  ? 'gray.700'
-                  : 'gray.400'
-                : colorMode === 'light'
-                  ? 'gray.400'
-                  : 'gray.700',
-              color: 'white',
-              opacity: 1,
-            }}
-          >
-            {item.independent ? 'True' : 'False'}
-          </Button>
-        );
-      },
+      onRender: (item: IData) => (
+        <Button
+          size="sm"
+          colorScheme={item.independent ? 'gray' : 'gray'}
+          variant={colorMode === 'dark' ? 'solid' : 'outline'}
+          isDisabled={true}
+          _disabled={{
+            bg: item.independent
+              ? colorMode === 'light'
+                ? 'gray.700'
+                : 'gray.400'
+              : colorMode === 'light'
+                ? 'gray.400'
+                : 'gray.700',
+            color: 'white',
+            opacity: 1,
+          }}
+        >
+          {item.independent ? 'True' : 'False'}
+        </Button>
+      ),
     },
   ];
 
   if (isLoadingCountries) return <Spinner />;
-  if (isError || !mappedData) return <Box>Error fetching countries</Box>;
+  if (isError || !filteredData) return <Box>Error fetching countries</Box>;
 
   const handleOnRowClick = (country: IData) => {
     console.log('Navigating to country with code:', country.code);
     navigate(`/country/${country.code}`);
   };
 
-  const filteredData = mappedData.filter(
-    (item) =>
-      !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   const totalPopulation = filteredData.reduce(
     (acc, country) => acc + country.population,
     0
   );
-
   const totalArea = filteredData.reduce(
     (acc, country) => acc + country.area,
     0
   );
+
   const barChartData = filteredData
     .sort((a, b) => b.population - a.population)
     .slice(0, 7)
