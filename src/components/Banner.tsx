@@ -8,7 +8,7 @@ export interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({ label, value }) => {
   const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
+  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
   const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
 
   return (

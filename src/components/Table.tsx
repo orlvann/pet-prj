@@ -27,7 +27,7 @@ export const Table = ({
   onRowClick,
 }: TableProps): JSX.Element => {
   const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.700' : 'white';
+  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.600' : 'white';
 
   return (
