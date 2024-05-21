@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   VStack,
   Box,
@@ -50,30 +50,30 @@ const Dashboard: React.FC = () => {
     key: 'lp',
     direction: 'asc',
   });
-  const [filteredData, setFilteredData] = useState<IData[]>([]);
 
   const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
   const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
 
-  useEffect(() => {
-    if (countriesData) {
-      const mappedData = countriesData.map((country, index) => ({
-        lp: index,
-        code: country.cca3,
-        name: country.name.common,
-        flag: country.flags?.png,
-        capital: country.capital.join(', '),
-        population: country.population,
-        independent: country.independent,
-        area: country.area,
-      })) as IData[];
-      setFilteredData(mappedData);
-    }
-  }, [countriesData]);
+  const filteredData = useMemo(() => {
+    if (!countriesData) return [];
+    const mappedData = countriesData.map((country, index) => ({
+      lp: index,
+      code: country.cca3,
+      name: country.name.common,
+      flag: country.flags?.png,
+      capital: country.capital.join(', '),
+      population: country.population,
+      independent: country.independent,
+      area: country.area,
+    })) as IData[];
 
-  useEffect(() => {
-    let sortedData = [...filteredData];
-    sortedData.sort((a, b) => {
+    const filtered = mappedData.filter(
+      (item) =>
+        !searchTerm ||
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    filtered.sort((a, b) => {
       if (a[sortConfig.key] < b[sortConfig.key]) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }
@@ -82,8 +82,9 @@ const Dashboard: React.FC = () => {
       }
       return 0;
     });
-    setFilteredData(sortedData);
-  }, [filteredData, sortConfig]);
+
+    return filtered;
+  }, [countriesData, searchTerm, sortConfig]);
 
   const handleSortChange = (
     ev: React.MouseEvent<HTMLElement>,
@@ -96,28 +97,6 @@ const Dashboard: React.FC = () => {
         prevState.key === key && prevState.direction === 'asc' ? 'desc' : 'asc',
     }));
   };
-
-  useEffect(() => {
-    if (countriesData) {
-      const mappedData = countriesData.map((country, index) => ({
-        lp: index,
-        code: country.cca3,
-        name: country.name.common,
-        flag: country.flags?.png,
-        capital: country.capital.join(', '),
-        population: country.population,
-        independent: country.independent,
-        area: country.area,
-      })) as IData[];
-
-      const filtered = mappedData.filter(
-        (item) =>
-          !searchTerm ||
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredData(filtered);
-    }
-  }, [searchTerm, countriesData]);
 
   const columns: TableColumn[] = [
     {
@@ -189,7 +168,8 @@ const Dashboard: React.FC = () => {
   ];
 
   if (isLoadingCountries) return <Spinner />;
-  if (isError || !filteredData) return <Box>Error fetching countries</Box>;
+  if (isError || !filteredData.length)
+    return <Box>Error fetching countries</Box>;
 
   const handleOnRowClick = (country: IData) => {
     console.log('Navigating to country with code:', country.code);

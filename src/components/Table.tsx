@@ -6,9 +6,12 @@ import {
   Tr,
   Th,
   Td,
+  Flex,
+  Box,
+  Icon,
 } from '@chakra-ui/react';
+import { FaSortUp, FaSortDown, FaSort } from 'react-icons/fa';
 import { numberWithCommas } from '../utils/numberWithComma';
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
 export interface TableColumn {
   key: string;
@@ -34,6 +37,16 @@ export const Table = ({
   data,
   onRowClick,
 }: TableProps): JSX.Element => {
+  const getSortIcon = (
+    isSorted: boolean = false,
+    isSortedDescending: boolean = false
+  ) => {
+    if (isSorted) {
+      return isSortedDescending ? <FaSortDown /> : <FaSortUp />;
+    }
+    return <FaSort />;
+  };
+
   return (
     <ChakraTable variant="simple">
       <Thead>
@@ -44,17 +57,17 @@ export const Table = ({
               onClick={(ev) =>
                 column.onColumnClick && column.onColumnClick(ev, column)
               }
+              cursor="pointer"
+              textAlign="center"
             >
-              {column.name}
-              {column.isSorted ? (
-                column.isSortedDescending ? (
-                  <FaSortDown />
-                ) : (
-                  <FaSortUp />
-                )
-              ) : (
-                <FaSort />
-              )}
+              <Flex justify="center" align="center">
+                <Box mr="2">{column.name}</Box>
+                <Icon
+                  as={() =>
+                    getSortIcon(column.isSorted, column.isSortedDescending)
+                  }
+                />
+              </Flex>
             </Th>
           ))}
         </Tr>
@@ -63,7 +76,7 @@ export const Table = ({
         {data.map((item, idx) => (
           <Tr key={idx} onClick={() => onRowClick && onRowClick(item, idx)}>
             {columns.map((column) => (
-              <Td key={column.key}>
+              <Td key={column.key} textAlign="center">
                 {column.onRender
                   ? column.onRender(item, idx)
                   : column.fieldName === 'population'
