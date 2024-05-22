@@ -1,4 +1,3 @@
-// App.tsx (Updated)
 import React, { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';

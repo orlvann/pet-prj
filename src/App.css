@@ -1,3 +1,31 @@
+/* styles.css */
+
+/* Define CSS variables for light and dark modes */
+:root {
+  --background-color: white;
+  --text-color: black;
+  --header-background: white;
+  --sidebar-background: white;
+  --main-content-background: #f0f0f0;
+}
+
+[data-theme='dark'] {
+  --background-color: #1a202c;
+  --text-color: white;
+  --header-background: #2d3748;
+  --sidebar-background: #2d3748;
+  --main-content-background: #2d3748;
+}
+
+[data-theme='light'] {
+  --background-color: white;
+  --text-color: black;
+  --header-background: white;
+  --sidebar-background: white;
+  --main-content-background: #f0f0f0;
+}
+
+/* Global styles */
 *,
 *::before,
 *::after {
@@ -10,6 +38,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .app-container {
@@ -21,16 +51,10 @@ body {
   padding: 1rem;
   flex: 1;
   min-height: 100vh;
+  background-color: var(--main-content-background);
 }
 
-body[data-theme='dark'] .main-content {
-  background-color: #2d3748;
-}
-
-body[data-theme='light'] .main-content {
-  background-color: #f0f0f0;
-}
-
+/* Sidebar styles */
 .sidebar {
   width: 250px;
   height: 100vh;
@@ -38,12 +62,15 @@ body[data-theme='light'] .main-content {
   top: 0;
   left: 0;
   transition: transform 0.3s ease;
+  background-color: var(--sidebar-background);
+  color: var(--text-color);
 }
 
 .sidebar.open {
   transform: translateX(0);
 }
 
+/* Header styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -53,65 +80,10 @@ body[data-theme='light'] .main-content {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: var(--header-background);
 }
 
-body[data-theme='dark'] .header {
-  background-color: #2d3748;
-}
-
-body[data-theme='light'] .header {
-  background-color: white;
-}
-
-.main-content {
-  padding: 1rem;
-  flex: 1;
-  background-color: #fafafa;
-  min-height: 100vh;
-}
-
-body.dark-mode .main-content {
-  background-color: #2d3748;
-}
-
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  transition: transform 0.3s ease;
-  transform: translateX(-100%);
-}
-
-.sidebar.open {
-  transform: translateX(0);
-}
-
-.sidebar-header {
-  padding: 1rem;
-  text-align: center;
-  background-color: #f7f7f7;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: white;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
+/* Search bar styles */
 .search-bar {
   flex: 1;
   max-width: 600px;
@@ -119,6 +91,7 @@ body.dark-mode .main-content {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Summary styles */
 .summary {
   width: 100%;
   max-width: 1247px;
@@ -130,23 +103,31 @@ body.dark-mode .main-content {
   width: 48%;
   padding: 1rem;
   text-align: center;
-  background-color: #f7f7f7;
+  background-color: var(--background-color);
+  color: var(--text-color);
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* Bar chart styles */
 .bar-chart {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
+/* Table styles */
 .table {
   width: 100%;
   max-width: 1247px;
   margin: 10px auto;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
+/* Independent button styles */
 .independent-button {
   background: none;
   border: none;

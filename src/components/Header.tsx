@@ -1,4 +1,3 @@
-// components/Header.tsx
 import React from 'react';
 import { Flex, IconButton, useColorMode } from '@chakra-ui/react';
 import { FaBars, FaSun, FaMoon } from 'react-icons/fa';
@@ -15,8 +14,10 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     <Flex
       justify="space-between"
       w="100%"
-      bg={colorMode === 'dark' ? 'gray.700' : '#f0f0f0;'}
+      bg={colorMode === 'dark' ? 'gray.700' : 'white'}
       color={colorMode === 'dark' ? 'gray.50' : 'gray.700'}
+      className="header"
+      p={4}
     >
       <Flex align="center">
         <IconButton
