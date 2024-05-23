@@ -29,7 +29,6 @@ interface IData {
   independent: boolean;
   area: number;
 }
-
 const Dashboard: React.FC = () => {
   const {
     data: countriesData,
@@ -51,7 +50,6 @@ const Dashboard: React.FC = () => {
     independent: country.independent,
     area: country.area,
   })) as IData[];
-
   const columns: TableColumn[] = [
     {
       key: 'lp',
@@ -110,15 +108,12 @@ const Dashboard: React.FC = () => {
       },
     },
   ];
-
   if (isLoadingCountries) return <Spinner />;
   if (isError || !mappedData) return <Box>Error fetching countries</Box>;
-
   const handleOnRowClick = (country: IData) => {
     console.log('Navigating to country with code:', country.code);
     navigate(`/country/${country.code}`);
   };
-
   const filteredData = mappedData.filter(
     (item) =>
       !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -127,7 +122,6 @@ const Dashboard: React.FC = () => {
     (acc, country) => acc + country.population,
     0
   );
-
   const totalArea = filteredData.reduce(
     (acc, country) => acc + country.area,
     0
@@ -165,5 +159,4 @@ const Dashboard: React.FC = () => {
     </Box>
   );
 };
-
 export default Dashboard;

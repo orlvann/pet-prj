@@ -1,5 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
-import { useColorMode } from '@chakra-ui/react';
+import { Box, Text, useColorModeValue } from '@chakra-ui/react';
 
 export interface BannerProps {
   label: string;
@@ -7,21 +6,24 @@ export interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({ label, value }) => {
-  const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
-  const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
+  const bgColor = useColorModeValue('gray.50', 'gray.900');
+  const textColor = useColorModeValue('#000', '#e0e0e0');
 
   return (
-    <div className="banner">
-      <Box bg={bgColor} p={10} borderRadius="10px" width="300px">
-        <Text fontSize="sm" fontWeight="medium" color="gray.500">
-          {label}
-        </Text>
-        <Text fontSize="3xl" fontWeight="bold" color={textColor}>
-          {value}
-        </Text>
-      </Box>
-    </div>
+    <Box
+      bg={bgColor}
+      p={10}
+      borderRadius="10px"
+      width="300px"
+      className="banner"
+    >
+      <Text fontSize="sm" fontWeight="medium" color="gray.500">
+        {label}
+      </Text>
+      <Text fontSize="3xl" fontWeight="bold" color={textColor}>
+        {value}
+      </Text>
+    </Box>
   );
 };
 

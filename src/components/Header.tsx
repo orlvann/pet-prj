@@ -5,20 +5,18 @@ import Logo from './Logo';
 
 interface HeaderProps {
   toggleSidebar: () => void;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
-
-const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
+const Header: React.FC<HeaderProps> = ({
+  toggleSidebar,
+  isDarkMode,
+  toggleDarkMode,
+}) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Flex
-      justify="space-between"
-      w="100%"
-      bg={colorMode === 'dark' ? 'gray.700' : 'white'}
-      color={colorMode === 'dark' ? 'gray.50' : 'gray.700'}
-      className="header"
-      p={4}
-    >
+    <Flex justify="space-between" w="100%">
       <Flex align="center">
         <IconButton
           icon={<FaBars />}
@@ -28,6 +26,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
         />
         <Logo />
       </Flex>
+
       <IconButton
         icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
         onClick={toggleColorMode}
@@ -36,5 +35,4 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     </Flex>
   );
 };
-
 export default Header;

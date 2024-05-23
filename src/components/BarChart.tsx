@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { useColorMode, Box } from '@chakra-ui/react';
+import { useColorModeValue, Box } from '@chakra-ui/react';
 import { formatNumbers } from '../utils/formatNumbers';
 
 export interface CustomBarChartProps {
@@ -16,13 +16,11 @@ export interface CustomBarChartProps {
 }
 
 const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
-  const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
-  const borderColor = colorMode === 'dark' ? 'gray.700' : 'gray.200';
-  const textColor = colorMode === 'dark' ? '#e0e0e0' : '#000';
-  const isDarkMode = colorMode === 'dark';
-  const gridColor = isDarkMode ? '#e0e0e0' : '#e0e0e0';
-  const fillId = isDarkMode ? 'whiteGradient' : 'colorfulGradient';
+  const bgColor = useColorModeValue('gray.50', 'gray.900');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const textColor = useColorModeValue('#000', '#e0e0e0');
+  const gridColor = useColorModeValue('#e0e0e0', '#e0e0e0');
+  const fillId = useColorModeValue('colorfulGradient', 'whiteGradient');
 
   return (
     <Box
@@ -70,7 +68,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ data }) => {
               borderColor: 'gray',
               borderWidth: '1px',
               padding: '10px',
-              background: isDarkMode ? '#A0AEC0' : 'white',
+              background: useColorModeValue('white', '#A0AEC0'),
             }}
           />
           <Bar dataKey="population" fill={`url(#${fillId})`} />

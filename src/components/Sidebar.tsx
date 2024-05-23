@@ -10,6 +10,7 @@ import {
   Collapse,
   Button,
   IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -18,7 +19,6 @@ import {
   FiChevronUp,
   FiMenu,
 } from 'react-icons/fi';
-import { useColorMode } from '@chakra-ui/react';
 import { useFetchEUCountries } from '../api/countries';
 import { Outlet } from 'react-router-dom';
 
@@ -28,10 +28,9 @@ export interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
-  const { colorMode } = useColorMode();
-  const bgColor = colorMode === 'dark' ? 'gray.800' : 'white';
-  const textColor = colorMode === 'dark' ? 'gray.50' : 'gray.800';
-  const borderColor = colorMode === 'dark' ? 'gray.600' : 'gray.200';
+  const bgColor = useColorModeValue('white', 'gray.900');
+  const textColor = useColorModeValue('gray.800', 'gray.50');
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
 
   const {
     data: countriesData,
@@ -70,6 +69,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       transition="all 0.2s"
       zIndex="20"
       borderRadius="10px"
+      className="sidebar"
     >
       <Box>
         <IconButton
