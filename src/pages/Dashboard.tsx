@@ -14,7 +14,7 @@ import { Table, TableColumn } from '../components/Table';
 import Banner from '../components/BannerPopulation';
 import PopulationBarChart from '../components/BarChart';
 import SearchBar from '../components/SearchBar';
-import { useFetchEUCountries } from '../api/countries';
+import { Country, useFetchCountriesByRegion } from '../api/countries';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
 import AreaBanner from '../components/BannerArea';
@@ -34,13 +34,13 @@ const Dashboard: React.FC = () => {
     data: countriesData,
     isLoading: isLoadingCountries,
     isError,
-  } = useFetchEUCountries();
+  } = useFetchCountriesByRegion('Europe');
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode } = useColorMode();
 
-  const mappedData = countriesData?.map((country, index) => ({
+  const mappedData = countriesData?.map((country: Country, index: number) => ({
     lp: index,
     code: country.cca3,
     name: country.name.common,

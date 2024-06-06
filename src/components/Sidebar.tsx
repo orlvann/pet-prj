@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   List,
@@ -19,7 +19,7 @@ import {
   FiChevronUp,
   FiMenu,
 } from 'react-icons/fi';
-import { useFetchEUCountries } from '../api/countries';
+import { useFetchCountriesByRegion } from '../api/countries';
 import { Outlet } from 'react-router-dom';
 
 export interface SidebarProps {
@@ -32,26 +32,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const textColor = useColorModeValue('gray.800', 'gray.50');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
 
-  const {
-    data: countriesData,
-    isLoading: isLoadingCountries,
-    isError,
-  } = useFetchEUCountries();
-  const [countries, setCountries] = useState<any[]>([]);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedContinent, setExpandedContinent] = useState<string | null>(
+    null
+  );
 
-  useEffect(() => {
-    if (countriesData) {
-      setCountries(countriesData);
-    }
-  }, [countriesData]);
-
-  if (isLoadingCountries) return <Spinner />;
-  if (isError) return <Box>Error loading countries</Box>;
-
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
+  const handleToggle = (continent: string) => {
+    setExpandedContinent(expandedContinent === continent ? null : continent);
   };
+
+  const continents = ['Europe', 'Africa', 'Americas', 'Oceania', 'Asia'];
 
   return (
     <Flex
@@ -90,38 +79,59 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
               Dashboard
             </Link>
           </ListItem>
-          <ListItem>
-            <Button
-              onClick={handleToggle}
-              display="flex"
-              alignItems="center"
-              variant="link"
-              color={textColor}
-            >
-              <ListIcon as={FiGlobe} />
-              Detailed Country Info
-              <ListIcon
-                as={isExpanded ? FiChevronUp : FiChevronDown}
-                marginLeft="auto"
-              />
-            </Button>
-            <Collapse in={isExpanded} animateOpacity>
-              <List pl={4} mt={2} spacing={1}>
-                {countries.map((country) => (
-                  <ListItem key={country.cca3}>
-                    <Link
-                      href={`/country/${country.cca3}`}
-                      display="flex"
-                      alignItems="center"
-                      color={textColor}
-                    >
-                      {country.name.common}
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          </ListItem>
+          {continents.map((continent) => {
+            const {
+              data: countriesData,
+              isLoading,
+              isError,
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+            } = useFetchCountriesByRegion(continent);
+
+            if (isLoading) return <Spinner key={continent} />;
+            if (isError)
+              return (
+                <Box key={continent}>Error loading {continent} countries</Box>
+              );
+
+            return (
+              <ListItem key={continent}>
+                <Button
+                  onClick={() => handleToggle(continent)}
+                  display="flex"
+                  alignItems="center"
+                  variant="link"
+                  color={textColor}
+                >
+                  <ListIcon as={FiGlobe} />
+                  {continent}
+                  <ListIcon
+                    as={
+                      expandedContinent === continent
+                        ? FiChevronUp
+                        : FiChevronDown
+                    }
+                    marginLeft="auto"
+                  />
+                </Button>
+                <Collapse in={expandedContinent === continent} animateOpacity>
+                  <List pl={4} mt={2} spacing={1}>
+                    {countriesData?.map((country) => (
+                      <ListItem key={country.cca3}>
+                        <Link
+                          href={`/country/${country.cca3}`}
+                          display="flex"
+                          alignItems="center"
+                          color={textColor}
+                        >
+                          {country.name.common}
+                        </Link>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
       <Box mt="auto">
