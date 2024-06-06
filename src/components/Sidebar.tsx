@@ -12,13 +12,9 @@ import {
   IconButton,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {
-  FiHome,
-  FiGlobe,
-  FiChevronDown,
-  FiChevronUp,
-  FiMenu,
-} from 'react-icons/fi';
+import { FiHome, FiChevronDown, FiChevronUp, FiMenu } from 'react-icons/fi';
+import { IoFolderOpenOutline } from 'react-icons/io5';
+
 import { useFetchCountriesByRegion } from '../api/countries';
 import { Outlet } from 'react-router-dom';
 
@@ -102,7 +98,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                   variant="link"
                   color={textColor}
                 >
-                  <ListIcon as={FiGlobe} />
+                  <ListIcon as={IoFolderOpenOutline} />
                   {continent}
                   <ListIcon
                     as={
