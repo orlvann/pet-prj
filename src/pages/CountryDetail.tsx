@@ -3,7 +3,6 @@ import {
   Box,
   Image,
   Text,
-  Spinner,
   Heading,
   VStack,
   IconButton,
@@ -17,6 +16,7 @@ import { Sidebar } from '../components/Sidebar';
 import DarkModeSwitch from '../components/DarkModeSwitch';
 import { FiMenu } from 'react-icons/fi';
 import '../App.css';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const renderCountryDetail = (country: Country) => {
   return Object.entries(country).map(([key, value]) => {
@@ -81,7 +81,7 @@ export const CountryDetail = () => {
     }
   );
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <LoadingSpinner />;
   if (isError || !countryData)
     return (
       <Box>An error occurred: {error?.message || 'Country not found'}</Box>

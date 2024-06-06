@@ -4,7 +4,6 @@ import {
   Box,
   useDisclosure,
   IconButton,
-  Spinner,
   Flex,
   useColorMode,
   Image,
@@ -21,6 +20,7 @@ import DarkModeSwitch from '../components/DarkModeSwitch';
 import { FiMenu } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import AreaBanner from '../components/BannerArea';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 interface IData {
   lp: number;
@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  if (isLoadingCountries) return <Spinner />;
+  if (isLoadingCountries) return <LoadingSpinner />;
   if (isError || !mappedData) return <Box>Error fetching countries</Box>;
 
   const handleOnRowClick = (country: IData) => {
