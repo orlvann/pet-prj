@@ -91,36 +91,20 @@ export interface Country {
   };
 }
 
-export const fetchEUCountries = async (): Promise<Country[]> => {
-  const response = await fetch('https://restcountries.com/v3.1/region/europe');
+const fetchCountriesByRegion = async (region: string): Promise<Country[]> => {
+  const response = await fetch(
+    `https://restcountries.com/v3.1/region/${region}`
+  );
   if (!response.ok) {
     throw new Error(
-      `Failed to load European countries: ${response.status} ${response.statusText}`
+      `Failed to load ${region} countries: ${response.status} ${response.statusText}`
     );
   }
   return response.json();
 };
 
-export const useFetchEUCountries = () => {
-  return useQuery<Country[], Error>('countries', fetchEUCountries);
-};
-
-export const useFetchCountryDetail = (countryCode: string | undefined) => {
-  return useQuery<Country, Error>(
-    ['country', countryCode],
-    async () => {
-      if (!countryCode)
-        throw new Error('Country code is not provided or is undefined');
-      const response = await fetch(
-        `https://restcountries.com/v3.1/alpha/${countryCode}`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch country data: ${response.status} ${response.statusText}`
-        );
-      }
-      return response.json();
-    },
-    { enabled: !!countryCode }
+export const useFetchCountriesByRegion = (region: string) => {
+  return useQuery<Country[], Error>(['countries', region], () =>
+    fetchCountriesByRegion(region)
   );
 };
