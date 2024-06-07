@@ -73,9 +73,9 @@ export const CountryDetail = () => {
   } = useQuery<Country[], Error>(
     ['country', countryCode],
     () =>
-      fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`).then((res) =>
-        res.json()
-      ),
+      fetch(
+        `${process.env.REACT_APP_API_ENDPOINT}/v3.1/alpha/${countryCode}`
+      ).then((res) => res.json()),
     {
       enabled: !!countryCode,
     }
