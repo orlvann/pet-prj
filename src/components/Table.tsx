@@ -10,7 +10,7 @@ import {
   Box,
   Icon,
 } from '@chakra-ui/react';
-import { FaSortUp, FaSortDown, FaSort } from 'react-icons/fa';
+import { FaSortUp, FaSortDown } from 'react-icons/fa';
 import { numberWithCommas } from '../utils/numberWithComma';
 
 export interface TableColumn {
@@ -44,7 +44,7 @@ export const Table = ({
     if (isSorted) {
       return isSortedDescending ? <FaSortDown /> : <FaSortUp />;
     }
-    return <FaSort />;
+    return null; // Only show the sort icon if the column is sorted
   };
 
   return (
@@ -62,11 +62,13 @@ export const Table = ({
             >
               <Flex justify="center" align="center">
                 <Box mr="2">{column.name}</Box>
-                <Icon
-                  as={() =>
-                    getSortIcon(column.isSorted, column.isSortedDescending)
-                  }
-                />
+                {getSortIcon(column.isSorted, column.isSortedDescending) && (
+                  <Icon
+                    as={() =>
+                      getSortIcon(column.isSorted, column.isSortedDescending)
+                    }
+                  />
+                )}
               </Flex>
             </Th>
           ))}

@@ -92,7 +92,9 @@ export interface Country {
 }
 
 export const fetchEUCountries = async (): Promise<Country[]> => {
-  const response = await fetch('https://restcountries.com/v3.1/region/europe');
+  const response = await fetch(
+    `${process.env.REACT_APP_API_ENDPOINT}/v3.1/region/europe`
+  );
   if (!response.ok) {
     throw new Error(
       `Failed to load European countries: ${response.status} ${response.statusText}`
